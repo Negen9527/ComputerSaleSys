@@ -1,6 +1,8 @@
 package com.scs.serviceImp;
 
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,12 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public int saveUser(User user) {
 		return userDao.saveUser(user);
+	}
+
+	@Override
+	public List<User> listAllUsers() {
+		userDao.selectAllUsers();
+		return null;
 	}
 
 }

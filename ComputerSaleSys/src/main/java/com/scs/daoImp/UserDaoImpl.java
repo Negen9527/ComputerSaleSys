@@ -1,6 +1,8 @@
 package com.scs.daoImp;
 
 
+import java.util.List;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.springframework.orm.hibernate5.HibernateCallback;
@@ -24,6 +26,16 @@ public class UserDaoImpl extends HibernateDaoSupport implements UserDao{
 //		});
 		getHibernateTemplate().save(user);
 		return 0;
+	}
+
+	@Override
+	public List<User> selectAllUsers() {
+		String queryString = "FROM User";
+		List<User> users = (List<User>) getHibernateTemplate().find(queryString);
+		for (User user : users) {
+			System.out.println(user);
+		}
+		return null;
 	}
 
 }

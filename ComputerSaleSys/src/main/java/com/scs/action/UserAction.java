@@ -22,9 +22,10 @@ public class UserAction extends ActionSupport{
 	@Action(value="/hello")
 	public void saveUser() {
 		User user = new User();
-		user.setAddr("asdfasdf");
-		user.setName("zhangsahn");
+//		user.setAddr("asdfasdf");
+//		user.setName("zhangsahn");
 		System.out.println("hello ssh");
-		userService.saveUser(user);
+//		userService.saveUser(user);
+		userService.listAllUsers();
 	}
 }
