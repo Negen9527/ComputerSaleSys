@@ -82,8 +82,19 @@ public class ProductDaoImpl extends HibernateDaoSupport implements ProductDao{
 	 */
 	@Override
 	public int totalPages() {
-		
-		return 0;
+		return getHibernateTemplate().execute(new HibernateCallback<Integer>() {
+
+			@Override
+			public Integer doInHibernate(Session session) throws HibernateException {
+				try {
+					String hqlStr = "select count(*) from product";
+					Query query = session.createQuery(hqlStr);
+					return (Integer)query.uniqueResult();
+				} catch (Exception e) {
+					return 0;
+				}
+			}
+		});
 	}
 	
 	
@@ -91,9 +102,23 @@ public class ProductDaoImpl extends HibernateDaoSupport implements ProductDao{
 	 * 分页查询
 	 */
 	@Override
-	public List<Product> selectProductByPageNum(Integer pageNum, Integer pageSize) {
+	public List<Product> selectProductByPageNum(final Integer pageNum, final Integer pageSize) {
+		return getHibernateTemplate().execute(new HibernateCallback<List<Product>>() {
+			@Override
+			public List<Product> doInHibernate(Session session) throws HibernateException {
+				try {
+					String hqlStr = "from product order by id desc";
+					Query query = session.createQuery(hqlStr);
+					query.setFirstResult(pageNum);
+					query.setMaxResults(pageSize);
+					return query.list();
+				} catch (Exception e) {
+					return null;
+				}
+				
+			}
+		});
 		
-		return null;
 	}
 
 }
