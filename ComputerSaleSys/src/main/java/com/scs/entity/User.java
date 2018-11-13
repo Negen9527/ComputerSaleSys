@@ -1,6 +1,5 @@
 package com.scs.entity;
 
-import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -21,7 +20,7 @@ public class User {
 	private Date birth;                //出生日期
 	private String addr;               //住址
 	private String tel;                //联系电话
-	private Timestamp inTime;          //入职时间
+	private Date inTime;               //入职时间
 	private Double basicSalary;        //底薪
 	private Integer isDelete;          //是否删除
 	public Integer getId() {
@@ -66,10 +65,10 @@ public class User {
 	public void setTel(String tel) {
 		this.tel = tel;
 	}
-	public Timestamp getInTime() {
+	public Date getInTime() {
 		return inTime;
 	}
-	public void setInTime(Timestamp inTime) {
+	public void setInTime(Date inTime) {
 		this.inTime = inTime;
 	}
 	public Double getBasicSalary() {
@@ -94,7 +93,7 @@ public class User {
 	
 	
 	
-	public User(String username, String password, Integer sex, Date birth, String addr, String tel, Timestamp inTime,
+	public User(String username, String password, Integer sex, Date birth, String addr, String tel, Date inTime,
 			Double basicSalary, Integer isDelete) {
 		super();
 		this.username = username;
