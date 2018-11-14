@@ -3,17 +3,23 @@ package com.scs.action;
 import java.util.Date;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.convention.annotation.Results;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.scs.entity.User;
 import com.scs.service.UserService;
 import com.scs.utils.DateUtil;
-@ParentPackage("struts-default")
+
+import net.sf.json.JSONObject;
+@ParentPackage("json-default")
 @Namespace(value = "/")
 public class UserAction extends ActionSupport{
 	private String username;                //用户名
@@ -25,7 +31,19 @@ public class UserAction extends ActionSupport{
 	private Integer isDelete;                //是否删除
 	private String tel;                     //电话
 	
+	private JSONObject jsonData = new JSONObject();
 	
+	
+	public JSONObject getJsonData() {
+		return jsonData;
+	}
+
+
+	public void setJsonData(JSONObject jsonData) {
+		this.jsonData = jsonData;
+	}
+
+
 	@Resource(name="userService")
 	private UserService userService;
 	
@@ -33,10 +51,24 @@ public class UserAction extends ActionSupport{
 		this.userService = userService;
 	}
 
-	@Action(value="/addUser")
-	public void saveUser(HttpServletRequest request) {
+	
+	/**
+	 *	 添加员工
+	 * @param request
+	 */
+	@Action(value="/addUser",
+			results= {
+					@Result(type="json",params= {"root","jsonData"})
+			})
+	public String saveUser() {
+		HttpServletRequest request = ServletActionContext.getRequest();
 		User user = getUserData(request);
-		System.out.println("hello ssh");
+		userService.addUser(user);
+		JSONObject jsonResult = new JSONObject();
+		jsonResult.put("added", 1);
+		this.setJsonData(jsonResult);
+		System.out.println(jsonResult.toString());
+		return SUCCESS;
 	}
 	
 	
