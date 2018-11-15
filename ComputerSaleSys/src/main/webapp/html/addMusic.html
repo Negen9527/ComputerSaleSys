@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title> - 基本表单</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <link rel="shortcut icon" href="favicon.ico"> <link href="css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css?v=4.1.0" rel="stylesheet">
+	<style type="text/css">
+	.swal-modal{
+		width:260px;
+		height:250px;
+		
+	}
+	</style>
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>添加歌曲</small></h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <form role="form" method="post" action="">
+									<div class="form-group">
+									<label class="control-label">选择标签：</label>
+									     <select class="form-control" name="labelName" id="labelName" placeholder="请选择标签" style="font-size:12px;">
+
+									    </select>
+									</div>
+                                    <div class="form-group">
+                                        <input type="text" placeholder="请输入歌曲名" class="form-control" name="songName" id="songName">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" placeholder="请输入歌手名" class="form-control" name="singerName" id="singerName">
+                                    </div>
+                                    
+                                    <div>
+                                        <button id="saveBtn" class="btn btn-sm btn-primary pull-right m-t-n-xs" type="button"
+                                                style="margin-right: 170px;"><strong>保&nbsp;&nbsp;&nbsp;&nbsp;
+                                        存</strong>
+                                        </button>
+
+                                        <button id="reset" onclick="reset()" class="btn btn-sm btn-info pull-right m-t-n-xs" type="button"
+                                                style="margin-right: 170px;"><strong>重&nbsp;&nbsp;&nbsp;&nbsp;
+                                        置</strong>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    <!-- 全局js -->
+    <script src="js/jquery.min.js?v=2.1.4"></script>
+    <script src="js/bootstrap.min.js?v=3.3.6"></script>
+
+    <!-- 自定义js -->
+    <script src="js/content.js?v=1.0.0"></script>
+
+    <!-- iCheck -->
+    <script src="js/plugins/iCheck/icheck.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+        });
+    </script>
+
+<script type="text/javascript">
+	$.ajax({
+		type:"get",
+		url:"../LabelServlet?action=allLabels",
+		dataType:"json",
+		success:function (msg){
+			var data = msg["data"]
+			var len = data.length
+			
+ 			for(var i=len-1; i>0; i--){
+ 				//console.log(data[i])
+				$("#labelName").append("<option value='"+data[i][0]+"'>"+data[i][0]+"</option>");
+				
+			} 
+			
+		}
+	});
+	
+	
+$(document).ready(function(){
+	$("#saveBtn").click(function(){
+		var labelName = $("#labelName").val();
+		var songName = $("#songName").val();
+		var singerName = $("#singerName").val();
+		if(songName == "")swal("", "请输入歌曲名","warning");
+		if(singerName == "")swal("", "请输入歌手名","warning");
+		
+		$.ajax({
+			type:"get",
+			url:"../MusicServlet?action=addMusic",
+			data:{
+				"labelName": labelName,
+				"songName": songName,
+				"singerName": singerName
+			},
+			success:function(msg){
+				if(msg == "success"){
+					swal("", "添加成功","success")
+					reset()
+				}else if(msg == "error"){
+					swal("", "添加失败","error")
+				}else if(msg == "exist"){
+					swal("", "歌曲已存在","warning")
+				}
+			},
+			error:function(msg){
+				swal("", "服务器错误","error")
+			}
+		});
+		
+		
+		
+		
+		
+		
+	});
+	
+})
+
+function reset(){
+	$("#songName").val("");
+	$("#singerName").val("");
+}
+	
+</script>
+
+
+
+</body>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</html>

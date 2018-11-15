@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+
+    <link rel="shortcut icon" href="favicon.ico"> <link href="css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css?v=4.1.0" rel="stylesheet">
+    
+    <style type="text/css">
+    input,button{margin-left:100px;margin-top:10px;}
+    
+    </style>
+</head>
+<body>
+	<form  role="form" method="post" action="">
+		<div style="text-align:center" style="width:100%;margin-top:20px;">
+<!-- 		    <input type="file" id="files"/>
+		    <input type="button" id="import" value="导&nbsp;&nbsp;&nbsp;&nbsp;入" onclick="show()" /> -->
+			<div><input type="file" id="files" style="font-size:19px;display:inline-block"/></div>
+						
+			<div style="width:100%;text-align:center">	
+				<span style="display:inline-block;width:301px;text-align:left;">
+					<button class="btn btn-success" type="button"><i class="fa fa-upload"></i>&nbsp;&nbsp;<span class="bold">上传</span>
+             </button></span></div>
+			<div style="text-align:center"><font color="#FF0000">温馨提示：导入文件只支持txt，文件格式为标签	歌曲	歌手哟</font> </div>
+                        
+		</div>   
+		<span>
+			
+		</span>
+	</form>
+    
+    <script>
+    	function show() {
+    		var selectedFile = document.getElementById("files").files[0];//获取读取的File对象
+    		var name = selectedFile.name;//读取选中文件的文件名
+    		var nameList = name.split(".");
+    		if(nameList[nameList.length-1] != "txt")
+    			alert("目前只支持txt格式喔");
+    		else
+    		{
+    			var reader = new FileReader();//这里是核心！！！读取操作就是由它完成的。 
+        		reader.readAsText(selectedFile);//读取文件的内容 
+        		reader.onload = function(){ 
+        			line = []
+                    var dataarray = this.result.split("\n");
+                    for(var i=0; i<dataarray.length; i++)	//将文件内容转为JSON格式
+                    {
+                    	console.log(dataarray[i])
+                    	var words = dataarray[i].split('\t')
+          	
+            			information = {}
+            			information.label = words[0].trim();
+            			information.song = words[1].trim();
+            			information.singer = words[2].trim();
+            			line.push(information)
+                    }
+                    
+                    var a = JSON.stringify(line);                    
+                    $.ajax({
+        				type: 'POST',
+        				data: {"FileName":a},//json
+        				url: '../FileServlet?action=addFile',
+        				success:function(data){
+        					alert("文件添加完成");
+        				},
+        				error:function(e){
+        					alert("文件添加失败");
+        				}
+        			});
+    			}
+    		}; 
+    	}
+    
+    </script>
+    <script src="js/jquery.min.js?v=2.1.4"></script>
+</body>
+</html>
