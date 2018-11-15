@@ -3,7 +3,6 @@ package com.scs.action;
 import java.util.Date;
 
 import javax.annotation.Resource;
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts2.ServletActionContext;
@@ -11,13 +10,13 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
-import org.apache.struts2.convention.annotation.Results;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.scs.entity.User;
 import com.scs.service.UserService;
 import com.scs.utils.DateUtil;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 @ParentPackage("json-default")
 @Namespace(value = "/")
@@ -31,6 +30,8 @@ public class UserAction extends ActionSupport{
 	private Integer isDelete;                //是否删除
 	private String tel;                     //电话
 	
+	private HttpServletRequest request = ServletActionContext.getRequest();
+	private JSONArray jsonArrayData = new JSONArray();
 	private JSONObject jsonData = new JSONObject();
 	
 	
@@ -42,6 +43,18 @@ public class UserAction extends ActionSupport{
 	public void setJsonData(JSONObject jsonData) {
 		this.jsonData = jsonData;
 	}
+	
+	
+
+	public JSONArray getJsonArrayData() {
+		return jsonArrayData;
+	}
+
+
+	public void setJsonArrayData(JSONArray jsonArrayData) {
+		this.jsonArrayData = jsonArrayData;
+	}
+
 
 
 	@Resource(name="userService")
@@ -61,19 +74,66 @@ public class UserAction extends ActionSupport{
 					@Result(type="json",params= {"root","jsonData"})
 			})
 	public String saveUser() {
-		HttpServletRequest request = ServletActionContext.getRequest();
+		
 		User user = getUserData(request);
 		userService.addUser(user);
 		JSONObject jsonResult = new JSONObject();
-		jsonResult.put("added", 1);
+		jsonResult.put("added", user);
 		this.setJsonData(jsonResult);
-		System.out.println(jsonResult.toString());
 		return SUCCESS;
 	}
 	
 	
+	/**
+	 * 	删除员工
+	 * @return
+	 */
+	@Action(value="/deleteUser",
+			results= {
+					@Result(type="json",params= {"root","jsonData"})
+			})
+	public String deleteUser() {
+		Integer id = Integer.parseInt(request.getParameter("id"));
+		Integer intResult = userService.deleteUserById(id);
+		JSONObject tempJSON = new JSONObject();
+		this.setJsonData(tempJSON);
+		tempJSON.put("result", intResult==1?true:false);
+		this.setJsonData(tempJSON);
+		return SUCCESS;
+	}
 	
 	
+	/**
+	 * 	获取所有员工
+	 * @return
+	 */
+	@Action(value="/listUser",
+			results= {
+					@Result(type="json",params= {"root","jsonArrayData"})
+			})
+	public String listUser() {
+		this.setJsonArrayData(userService.listAllUser());	
+		return SUCCESS;
+	}
+	
+	
+	/**
+	 * 	修改信息
+	 * @return
+	 */
+	@Action(value="/modifyUser",
+			results= {
+					@Result(type="json",params= {"root","jsonData"})
+			})
+	public String modifyUser() {
+		User user = getUserData(request);
+		Integer intResult = userService.modifyUserInfo(user);
+		JSONObject tempJSON = new JSONObject();
+		this.setJsonData(tempJSON);
+		tempJSON.put("modifuResult", intResult==1?true:false);
+		this.setJsonData(tempJSON);
+		return SUCCESS;
+	}
 	
 	
 	

@@ -13,6 +13,9 @@ import com.scs.entity.User;
 import com.scs.service.UserService;
 import com.scs.utils.StringUtil;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 @Service("userService")
 public class UserServiceImpl implements UserService{
 	@Resource(name="userDao")
@@ -38,9 +41,24 @@ public class UserServiceImpl implements UserService{
 	 * 列出所有员工
 	 */
 	@Override
-	public List<User> listAllUser() {
+	public JSONArray listAllUser() {
 		List<User> users = userDao.selectAllUsers();
-		return users;
+		JSONArray userJsonArr = new JSONArray();
+		if(null != users) {
+			for (User user : users) {
+				JSONObject tempJSON = new JSONObject();
+				tempJSON.put("id", user.getId());
+				tempJSON.put("userName", user.getUsername());
+				tempJSON.put("sex", user.getSex());
+				tempJSON.put("tel", user.getTel());
+				tempJSON.put("birth", user.getBirth());
+				tempJSON.put("inTime", user.getInTime());
+				tempJSON.put("addr", user.getAddr());
+				tempJSON.put("basicSalary", user.getBasicSalary());
+				userJsonArr.add(tempJSON);
+			}
+		}
+		return userJsonArr;
 	}
 
 	/**

@@ -40,10 +40,7 @@ public class UserDaoImpl extends HibernateDaoSupport implements UserDao{
 	public List<User> selectAllUsers() {
 		String queryString = "FROM User";
 		List<User> users = (List<User>) getHibernateTemplate().find(queryString);
-		for (User user : users) {
-			System.out.println(user);
-		}
-		return null;
+		return users;
 	}
 
 	/**
