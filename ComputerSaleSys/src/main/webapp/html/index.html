@@ -58,7 +58,7 @@
                     </li> -->
                     <li>
                         <a href="#">
-                            <i class="fa fa-bookmark"></i>
+                            <i class="fa fa-user"></i>
                             <span class="nav-label">员工管理</span>
                             <span class="fa arrow"></span>
                         </a>
@@ -66,7 +66,7 @@
                             <li>
                                 <!-- <a class="J_menuItem" href="modify_manager_pwd.html">密码修改</a> -->
                                 <a class="J_menuItem" href="#" onclick="addLabel()">添加员工</a>
-                                <a class="J_menuItem" href="listLabels.html">员工列表</a>
+                                <a class="J_menuItem" href="listUser.html">员工列表</a>
                             </li>
                         </ul>
                     </li>
@@ -157,12 +157,12 @@
 
 function addLabel(){
 	layer.open({
-	  title:"添加标签",
+	  title:"添加员工",
 	  type: 2,
-	  area: ['700px', '300px'],
+	  area: ['700px', '500px'],
 	  fixed: true,
 	  maxmin: true,
-	  content: 'addLabel.html?t=' + new Date().getTime()
+	  content: 'addUser.html?t=' + new Date().getTime()
 	});
 }
 function addFile(){

@@ -22,7 +22,7 @@ public class User {
 	private String tel;                //联系电话
 	private Date inTime;               //入职时间
 	private Double basicSalary;        //底薪
-	private Integer isDelete;          //是否删除
+	private Integer isDelete = 0;          //是否删除
 	public Integer getId() {
 		return id;
 	}
@@ -77,16 +77,13 @@ public class User {
 	public void setBasicSalary(Double basicSalary) {
 		this.basicSalary = basicSalary;
 	}
-	public Integer isDelete() {
+	
+	public Integer getIsDelete() {
 		return isDelete;
 	}
-	public void setDelete(Integer isDelete) {
+	public void setIsDelete(Integer isDelete) {
 		this.isDelete = isDelete;
 	}
-	
-	
-	
-	
 	public User() {
 		super();
 	}

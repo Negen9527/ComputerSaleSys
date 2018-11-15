@@ -44,6 +44,34 @@
         <!-- 扫描并加载注解过的实体类 -->
         <property name="packagesToScan" value="com.scs.entity"/>
     </bean>
+    
+    
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="save*" propagation="REQUIRED" />
+			<tx:method name="add*" propagation="REQUIRED" />
+			<tx:method name="create*" propagation="REQUIRED" />
+			<tx:method name="insert*" propagation="REQUIRED" />
+			<tx:method name="update*" propagation="REQUIRED" />
+			<tx:method name="merge*" propagation="REQUIRED" />
+			<tx:method name="del*" propagation="REQUIRED" />
+			<tx:method name="remove*" propagation="REQUIRED" />
+			<tx:method name="put*" propagation="REQUIRED" />
+			<tx:method name="use*" propagation="REQUIRED" />
+			<tx:method name="recordOperLog" propagation="REQUIRED" />
+			<!--hibernate4必须配置为开启事务 否则 getCurrentSession()获取不到 -->
+			<tx:method name="get*" propagation="REQUIRED" read-only="true" />
+			<tx:method name="count*" propagation="REQUIRED" read-only="true" />
+			<tx:method name="find*" propagation="REQUIRED" read-only="true" />
+			<tx:method name="list*" propagation="REQUIRED" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+	<aop:config>
+		<aop:pointcut expression="execution(* com.scs.service.*.*(..))"
+			id="bussinessService" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="bussinessService" />
+	</aop:config>
+    
 
     <!-- 配置事务管理器 -->
     <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
@@ -51,27 +79,6 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
-    <!-- 配置事务增强 -->
-    <tx:advice id="txAdvice" transaction-manager="transactionManager">
-        <tx:attributes>
-            <!-- 配置需要进行事务管理的方法，和事务传播行为 -->
-            <tx:method name="save*" propagation="REQUIRED"/>
-            <tx:method name="update*" propagation="REQUIRED"/>
-            <tx:method name="delete*" propagation="REQUIRED"/>
-        </tx:attributes>
-    </tx:advice>
+ 
 
-    <!-- 配置切面 -->
-    <aop:config>
-        <!-- 配置切入点 com.yjq.ssh.*.service.*+.*(..)
-            * org.ssh.service.*+.*(..)
-                *：表示方法的作用域，*表示所有
-                org.ssh.service.*：表示org.ssh.service下的任何包
-                org.ssh.service.*+：表示org.ssh.service下的任何包及其子包
-                *(..)：*表示任何方法，(..)表示方法的任何参数
-         -->
-        <aop:pointcut id="pointcut" expression="execution(* com.scs.service.*+.*(..))"/>
-        <!-- 适配切入点和事务增强 -->
-        <aop:advisor advice-ref="txAdvice" pointcut-ref="pointcut"/>
-    </aop:config>
 </beans>

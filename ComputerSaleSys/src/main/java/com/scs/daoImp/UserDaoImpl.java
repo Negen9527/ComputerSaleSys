@@ -27,6 +27,7 @@ public class UserDaoImpl extends HibernateDaoSupport implements UserDao{
 		try {
 			getHibernateTemplate().save(user);
 		} catch (DataAccessException e) {
+			e.printStackTrace();
 			intResult = 0;
 		}
 		return intResult;

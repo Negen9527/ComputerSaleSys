@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.scs.dao.UserDao;
 import com.scs.entity.User;
 import com.scs.service.UserService;
+import com.scs.utils.DateUtil;
 import com.scs.utils.StringUtil;
 
 import net.sf.json.JSONArray;
@@ -30,6 +31,7 @@ public class UserServiceImpl implements UserService{
 	 */
 	@Override
 	public int addUser(User user) {
+		
 		if(null != user) 
 			return userDao.saveUser(user);
 		else 
@@ -49,15 +51,16 @@ public class UserServiceImpl implements UserService{
 				JSONObject tempJSON = new JSONObject();
 				tempJSON.put("id", user.getId());
 				tempJSON.put("userName", user.getUsername());
-				tempJSON.put("sex", user.getSex());
+				tempJSON.put("sex", user.getSex()==1?"男":"女");
 				tempJSON.put("tel", user.getTel());
-				tempJSON.put("birth", user.getBirth());
-				tempJSON.put("inTime", user.getInTime());
+				tempJSON.put("birth", DateUtil.date2str(user.getBirth()));
+				tempJSON.put("inTime", DateUtil.date2str(user.getInTime()));
 				tempJSON.put("addr", user.getAddr());
-				tempJSON.put("basicSalary", user.getBasicSalary());
+				tempJSON.put("basicSalary", user.getBasicSalary() + "元");
 				userJsonArr.add(tempJSON);
 			}
 		}
+		System.out.println(userJsonArr);
 		return userJsonArr;
 	}
 

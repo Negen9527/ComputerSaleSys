@@ -76,9 +76,8 @@ public class UserAction extends ActionSupport{
 	public String saveUser() {
 		
 		User user = getUserData(request);
-		userService.addUser(user);
 		JSONObject jsonResult = new JSONObject();
-		jsonResult.put("added", user);
+		jsonResult.put("added", userService.addUser(user));
 		this.setJsonData(jsonResult);
 		return SUCCESS;
 	}
@@ -146,14 +145,14 @@ public class UserAction extends ActionSupport{
 		User user = null;
 		try {
 			username = request.getParameter("username");
-			sex = Integer.parseInt(request.getParameter("username"));
+			sex = Integer.parseInt(request.getParameter("sex"));
 			birthStr = request.getParameter("birth");
 			Date birth = DateUtil.str2date(birthStr);
 			addr = request.getParameter("addr");
 			inTimeStr = request.getParameter("inTime");
 			Date inTime = DateUtil.str2date(inTimeStr);
 			basicSalary = Double.parseDouble(request.getParameter("basicSalary"));
-			isDelete = Integer.parseInt(request.getParameter("isDelete"));
+			//isDelete = Integer.parseInt(request.getParameter("isDelete"));
 			tel = request.getParameter("tel");
 			user = new User();
 			user.setUsername(username);
@@ -162,7 +161,7 @@ public class UserAction extends ActionSupport{
 			user.setAddr(addr);
 			user.setInTime(inTime);
 			user.setBasicSalary(basicSalary);
-			user.setDelete(isDelete);
+			//user.setDelete(isDelete);
 			user.setTel(tel);
 		} catch (Exception e) {
 			
