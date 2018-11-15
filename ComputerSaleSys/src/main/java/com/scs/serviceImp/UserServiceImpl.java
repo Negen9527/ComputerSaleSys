@@ -66,7 +66,10 @@ public class UserServiceImpl implements UserService{
 	 */
 	@Override
 	public int modifyUserInfo(User user) {
-		return userDao.updateUser(user);
+		if(null != user)
+			return userDao.updateUser(user);
+		else
+			return 0;
 	}
 
 	
@@ -75,7 +78,10 @@ public class UserServiceImpl implements UserService{
 	 */
 	@Override
 	public int deleteUserById(Integer id) {
-		return userDao.deleteUser(id);
+		if(id >=0)
+			return userDao.deleteUser(id);
+		else
+			return 0;
 	}
 
 
