@@ -54,10 +54,23 @@ public class UserDaoImpl extends HibernateDaoSupport implements UserDao{
 			public Integer doInHibernate(Session session) throws HibernateException {
 				try {
 					//成功
-					session.update(user);
+					System.out.println(user.getId());
+					User cUser = session.get(User.class, user.getId());
+					
+					cUser.setUsername(user.getUsername());
+					cUser.setSex(user.getSex());
+					cUser.setBirth(user.getBirth());
+					cUser.setInTime(user.getInTime());
+					cUser.setAddr(user.getAddr());
+					cUser.setBasicSalary(user.getBasicSalary());
+					cUser.setTel(user.getTel());
+					System.out.println(cUser.toString());
+					session.update(cUser);
+					session.flush();
 					return 1;
 				} catch (Exception e) {
 					//失败
+					e.printStackTrace();
 					return 0;
 				}
 				
