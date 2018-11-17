@@ -7,10 +7,11 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.orm.hibernate5.HibernateCallback;
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
+import org.springframework.stereotype.Repository;
 
 import com.scs.dao.ProductDao;
 import com.scs.entity.Product;
-
+@Repository("productDao")
 public class ProductDaoImpl extends HibernateDaoSupport implements ProductDao{
 
 	/**
@@ -20,11 +21,10 @@ public class ProductDaoImpl extends HibernateDaoSupport implements ProductDao{
 	public int savaProduct(Product product) {
 		try {
 			getHibernateTemplate().save(product);
-			return 1;
+			return product.getId();
 		} catch (Exception e) {
 			return 0;
 		}
-		
 	}
 
 	

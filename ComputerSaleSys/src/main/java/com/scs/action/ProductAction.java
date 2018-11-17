@@ -12,7 +12,10 @@ import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.scs.dao.DeployDao;
+import com.scs.entity.Deploy;
 import com.scs.entity.Product;
+import com.scs.service.DeployService;
 import com.scs.service.ProductService;
 import com.scs.utils.DateUtil;
 
@@ -34,6 +37,15 @@ public class ProductAction extends ActionSupport{
 	private JSONArray jsonArrayData = new JSONArray();
 	private JSONObject jsonData = new JSONObject();
 	
+	@Resource(name = "deployService")
+	private DeployService deployService;
+	
+
+	public void setDeployService(DeployService deployService) {
+		this.deployService = deployService;
+	}
+
+	@Resource(name = "productService")
 	private ProductService productService;
 	
 	
@@ -72,12 +84,25 @@ public class ProductAction extends ActionSupport{
 					@Result(type="json",params= {"root","jsonData"})
 			})
 	public String saveProduct() {
-		
 		Product product = getProductData(request);
-		
 		JSONObject jsonResult = new JSONObject();
 		this.setJsonData(jsonResult);
-		Integer intResult = productService.addProduct(product);
+		Integer intId = productService.addProduct(product);
+		String screenSize = request.getParameter("screenSize");
+		String weight = request.getParameter("weight");
+		String cpu = request.getParameter("cpu");
+		String videoCard = request.getParameter("videoCard");
+		String ram = request.getParameter("ram");
+		String hardPan = request.getParameter("hardPan");
+		Deploy deploy = new Deploy();
+		deploy.setProductId(intId);
+		deploy.setScreenSize(screenSize);
+		deploy.setWeight(Double.parseDouble(weight));
+		deploy.setCpu(cpu);
+		deploy.setVideoCard(videoCard);
+		deploy.setRam(ram);
+		deploy.setHardPan(hardPan);
+		Integer intResult = deployService.addDeploy(deploy);
 		jsonResult.put("addResult", intResult == 0?false:true);
 		this.setJsonData(jsonResult);
 		return SUCCESS;
@@ -149,12 +174,12 @@ public class ProductAction extends ActionSupport{
 		Product product = null;
 		try {
 			product = new Product();
-			product.setId(Integer.parseInt(request.getParameter("id")));
+//			product.setId(Integer.parseInt(request.getParameter("id")));
 			product.setName(request.getParameter("name"));
 			product.setTypeId(request.getParameter("typeId"));
 			product.setAmount(Integer.parseInt(request.getParameter("amount")));
 			product.setInPrice(Double.parseDouble(request.getParameter("inPrice")));
-			product.setOutPrice(Double.parseDouble(request.getParameter("outPrice")));
+//			product.setOutPrice(Double.parseDouble(request.getParameter("outPrice")));
 			product.setInTime(DateUtil.str2date(request.getParameter("inTime")));
 			product.setSupplier(request.getParameter("supplier"));
 		} catch (Exception e) {

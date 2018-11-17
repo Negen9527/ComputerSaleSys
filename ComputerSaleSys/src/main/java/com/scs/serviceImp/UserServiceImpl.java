@@ -4,6 +4,7 @@ package com.scs.serviceImp;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 @Service("userService")
+@Transactional
 public class UserServiceImpl implements UserService{
 	@Resource(name="userDao")
 	private UserDao userDao;
@@ -69,8 +71,11 @@ public class UserServiceImpl implements UserService{
 	 */
 	@Override
 	public int modifyUserInfo(User user) {
-		if(null != user)
+		if(null != user) {
+			System.out.println(user.toString());
 			return userDao.updateUser(user);
+		}
+			
 		else
 			return 0;
 	}

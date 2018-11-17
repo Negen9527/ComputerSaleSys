@@ -5,16 +5,11 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.scs.dao.ProductDao;
-import com.scs.dao.UserDao;
 import com.scs.entity.Product;
-import com.scs.entity.User;
 import com.scs.service.ProductService;
-import com.scs.service.UserService;
-import com.scs.utils.StringUtil;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;

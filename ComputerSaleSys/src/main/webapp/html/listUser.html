@@ -32,6 +32,52 @@
 </head>
 
 <body class="gray-bg">
+<div class="modal fade" id="modify-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">修改</h4>
+            </div>
+            <div class="modal-body">
+                 
+                 <input type="hidden" placeholder="id" class="form-control" name="id" id='id'>
+                 
+                 <div class="form-group">
+                      	姓名：<input type="text" placeholder="姓名" class="form-control" name="name" id='name'>
+                 </div>
+                 <div class="form-group">
+                      	性别：<select class="form-control" name="sex" id="sex" placeholder="性别" style="font-size:12px;">
+									<option value="1">男</option>
+									<option value="0">女</option>
+							</select>
+                 </div>
+                 <div class="form-group">
+                     	电话：<input type="text" placeholder="电话" class="form-control" name="tel" id="tel">
+                 </div>
+                 <div class="form-group">
+                     	出生日期：<br><input id="birth" class="laydate-icon form-control layer-date" placeholder="请选择出生日期"/>
+                 </div>
+                 <div class="form-group">
+                     	入职日期：<br><input id="inTime" class="laydate-icon form-control layer-date" placeholder="请选择入职日期"/>
+                 </div>
+                 <div class="form-group">
+                     	家庭住址：<input type="text" placeholder="请输入住址" class="form-control" name="addr" id="addr">
+                 </div>
+                 <div class="form-group">
+                     	基本薪资：<input type="text" placeholder="基本薪资" class="form-control" name="basicSalary" id="basicSalary">
+                 </div>
+			</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="submitBtn">提交更改</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">
             <div class="col-sm-12">
@@ -62,6 +108,7 @@
                         id="editable" style="text-align:center">
                             <thead >
                                 <tr >
+                                	<th></th>
                                     <th>姓名</th>
                                     <th>性别</th>
                                     <th>电话</th>
@@ -77,6 +124,7 @@
                             </tbody>
                             <tfoot>
                                 <tr>
+                                	<th></th>
                                     <th>姓名</th>
                                     <th>性别</th>
                                     <th>电话</th>
@@ -109,10 +157,56 @@
 
     <!-- 自定义js -->
     <script src="js/content.js?v=1.0.0"></script>
-
+    <!-- layerDate plugin javascript -->
+    <script src="js/plugins/layer/laydate/laydate.js"></script>
 
     <!-- Page-Level Scripts -->
     <script>
+    var oldId,oldName,oldSex,oldTel,oldBirth,oldInTime,oldAddr,oldBasicSalary
+    
+    //保存
+    $("#submitBtn").click(function(){
+	    var newId = $("#id").val()
+	    var newName = $("#name").val()
+	    var newSex = $('#sex').val()
+	    var newTel = $('#tel').val()
+	    var newBirth = $('#birth').val()
+	    var newinTime = $('#inTime').val()
+	    var newAddr = $('#addr').val()
+	    var newBasicSalary = $('#basicSalary').val()
+	    Data = {
+	    	"id":newId,
+	    	"username":newName,
+	    	"sex":newSex,
+	    	"tel":newTel,
+	    	"birth":newBirth,
+	    	"inTime":newinTime,
+	    	"addr":newAddr,
+	    	"basicSalary":newBasicSalary
+	    }
+	    
+	    $.ajax({
+	    	type:"post",
+	    	url:"../modifyUser",
+	    	data:Data,
+	    	success:function(msg){
+	    		alert(msg)
+	    	}
+	    	
+	    });
+	    
+	    console.log(Data)
+	    
+	    
+	    
+    });
+    
+    
+    
+    
+    
+    
+    
     $.ajax({
     	type:"get",
     	textType:"json",
@@ -129,12 +223,13 @@
                         "targets": -1,
                         "render": function ( data, type, full, meta ) {
                         	retStr = "<button id = 'deleteBtn' value = '删除' style='margin-bottom: 0px;' class='btn btn-w-s btn-danger'><i class='fa fa-remove'></i>&nbsp;&nbsp;<span class='bold'>删除</span></button>&nbsp;&nbsp;" + 
-                        	"<button id='outputBtn' class='btn btn-w-s btn-success' type='button'><i class='fa fa-download'></i>&nbsp;&nbsp;<span class='bold'>导出</span></button>";
+                        	"<button id='modifyBtn' class='btn btn-w-s btn-success' type='button'><i class='fa fa-edit'></i>&nbsp;&nbsp;<span class='bold'>修改</span></button>";
                             return retStr
                         }
                     }
                 ],
                 "columns": [
+                	{ "data":"id","visble":false},
                     { "data": "userName"},
                     { "data": "sex"},
                     { "data": "tel"},
@@ -156,7 +251,7 @@
     		    var row = $("table#editable tr").index($(this).closest("tr"));
     		    
     		    //获取某列（从0列开始计数）的值
-    		    var _labelName = $("table#editable").find("tr").eq(row).find("td").eq(0).text();
+    		    var id = $("table#editable").find("tr").eq(row).find("td").eq(0).text();
     		    
     		    swal({
     		    	  title: '确认删除',
@@ -168,11 +263,10 @@
     		    	}).then(function(isConfirm) {
     		    	  if (isConfirm === true) {
     		    		$.ajax({
-    		    			url:'../LabelServlet?action=deleteLabel',
-    		    			data:{"labelName":_labelName},
+    		    			url:'../deleteUser',
+    		    			data:{"id":id},
     		    			success:function(msg){
-    		    				
-    		    				if(msg=="success"){
+    		    				if(msg["result"]==true){
     		    					//删除成功
     		    		    	    swal(
     		    	    		    	      'Deleted!',
@@ -183,7 +277,7 @@
     		    	    	        $("table#editable").find("tr:eq(" + row + ")").remove();
     		    				}else{
     		    					//删除失败
-    		    					console.log("error")
+    		    					console.log(msg)
     		    					swal("哎呦……", "出错了！","error");
     		    				}
     		    			},
@@ -208,54 +302,53 @@
     		    	    // isConfirm is undefined
     		    	  }
     		    	});  
-    		    
     		});
     		
 
-    		//导出
-    		$("#editable tbody").on("click", "#outputBtn", function () {
+    		//修改
+    		$("#editable tbody").on("click", "#modifyBtn", function () {
+    			oldId,oldName,oldSex,oldTel,oldBirth,oldInTime,oldAddr,oldBasicSalary
+    			
     		    //获取行
     		    var row = $("table#editable tr").index($(this).closest("tr"));
+    		    index = row
     		    //获取某列（从0列开始计数）的值
-    		    var _labelName = $("table#editable").find("tr").eq(row).find("td").eq(0).text();
-    		    var rows = $("table#editable").find("tr").eq(row).find("td").eq(1).text();	    
-    		    if(rows == 0){
-		    	    swal(
-	    		    	      '当前歌单暂无歌曲',
-	    		    	      '',
-	    		    	      'warning'
-	    		    	);
-    		    }else{
-    		    	//获取歌曲信息
-    	        	$.ajax({
-    	        		type:"get",
-    	        		url:"../MusicServlet?action=musics",
-    	        		data:{"labelName":_labelName},
-    	        		dataType:"json",
-    	        		success:function (msg){
-    	        			var len = msg.length
-    	        			outPutStr = ""
-    	        			for(var i=0; i<len ; i++){
-    	        				label = msg[i]["labelName"]
-    	        				song = msg[i]["songName"]
-    	        				singer = msg[i]["singerName"]
-    	        				outPutStr += label + '\t' + song + '\t' + singer + '\n'
-    	        			}
-    	        			//保存文件
-    	        			downloadTextFile(outPutStr,_labelName)
-    	        			
-    	        		}
-    	        	});	
-    		    	
-    		    }
+    		    oldId = $("table#editable").find("tr").eq(row).find("td").eq(0).text();
+    		    oldName = $("table#editable").find("tr").eq(row).find("td").eq(1).text();
+    		    oldSex = ($("table#editable").find("tr").eq(row).find("td").eq(2).text()=="男")?(1):(0);
+    		    oldTel = $("table#editable").find("tr").eq(row).find("td").eq(3).text();
+    		    oldBirth = $("table#editable").find("tr").eq(row).find("td").eq(4).text();
+    		    oldInTime = $("table#editable").find("tr").eq(row).find("td").eq(5).text();
+    		    oldAddr = $("table#editable").find("tr").eq(row).find("td").eq(6).text();
+    		    oldBasicSalary = $("table#editable").find("tr").eq(row).find("td").eq(7).text().replace("元","");
     		    
     		    
+    		    
+    		    
+    		    $("#id").val(oldId)
+    		    $("#name").val(oldName)
+    		    $('#sex').val(oldSex)
+    		    $('#tel').val(oldTel)
+    		    $('#birth').val(oldBirth)
+    		    $('#inTime').val(oldInTime)
+    		    $('#addr').val(oldAddr)
+    		    $('#basicSalary').val(oldBasicSalary)
+    		    $("#modify-modal").modal("show")
     		});
     	}
     });
     
     
-    
+    //外部js调用
+    laydate({
+        elem: '#birth', //目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
+        event: 'focus' //响应事件。如果没有传入event，则按照默认的click
+    });    
+    //外部js调用
+    laydate({
+        elem: '#inTime', //目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
+        event: 'focus' //响应事件。如果没有传入event，则按照默认的click
+    });  
     
     var downloadTextFile = function(mobileCode,fileName) {
     	  var file = new File([mobileCode], fileName + ".txt", { type: "text/plain;charset=utf-8" });
@@ -269,4 +362,6 @@
 </body>
 <!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
 <script type="text/javascript" src="js/FileServer.js"></script>
+
+
 </html>

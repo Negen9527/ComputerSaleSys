@@ -1,13 +1,17 @@
 package com.scs.daoImp;
 
+import javax.transaction.Transactional;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.orm.hibernate5.HibernateCallback;
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
+import org.springframework.stereotype.Repository;
+
 import com.scs.dao.DeployDao;
 import com.scs.entity.Deploy;
-
+@Repository("deployDao")
 public class DeployDaoImpl extends HibernateDaoSupport implements DeployDao{
 
 	/**
@@ -24,10 +28,7 @@ public class DeployDaoImpl extends HibernateDaoSupport implements DeployDao{
 		
 	}
 
-	
-	/**
-	 * 修改配置
-	 */
+
 	@Override
 	public Deploy selectDeployByProductId(final Integer productId) {
 		return getHibernateTemplate().execute(new HibernateCallback<Deploy>() {
@@ -47,7 +48,9 @@ public class DeployDaoImpl extends HibernateDaoSupport implements DeployDao{
 		
 	}
 
-
+	/**
+	 * 修改配置
+	 */
 	@Override
 	public int updateDeploy(final Deploy deploy) {
 		return getHibernateTemplate().execute(new HibernateCallback<Integer>() {

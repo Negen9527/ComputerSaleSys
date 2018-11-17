@@ -126,7 +126,10 @@ public class UserAction extends ActionSupport{
 			})
 	public String modifyUser() {
 		User user = getUserData(request);
+		Integer id = Integer.parseInt(request.getParameter("id"));
+		user.setId(id);
 		Integer intResult = userService.modifyUserInfo(user);
+		
 		JSONObject tempJSON = new JSONObject();
 		this.setJsonData(tempJSON);
 		tempJSON.put("modifuResult", intResult==1?true:false);

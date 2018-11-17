@@ -65,7 +65,7 @@
                         <ul class="nav nav-second-level">
                             <li>
                                 <!-- <a class="J_menuItem" href="modify_manager_pwd.html">密码修改</a> -->
-                                <a class="J_menuItem" href="#" onclick="addLabel()">添加员工</a>
+                                <a class="J_menuItem" href="" onclick="addUser()">添加员工</a>
                                 <a class="J_menuItem" href="listUser.html">员工列表</a>
                             </li>
                         </ul>
@@ -73,13 +73,15 @@
                     <li class="line dk"></li>
 					<li>
                         <a href="#">
-                            <i class="fa fa-file"></i>
-                            <span class="nav-label">文件管理</span>
+                            <i class="fa fa-tv"></i>
+                            <span class="nav-label">电脑管理</span>
                             <span class="fa arrow"></span>
                         </a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a class="J_menuItem" href="#" onclick="addFile()">文件添加</a>
+                                <!-- <a class="J_menuItem" href="modify_manager_pwd.html">密码修改</a> -->
+                                <a class="J_menuItem" href="addComputer.html?v=0.1">添加电脑</a>
+                                <a class="J_menuItem" href="listComputer.html">电脑列表</a>
                             </li>
                         </ul>
                     </li>
@@ -155,7 +157,7 @@
 
 
 
-function addLabel(){
+function addUser(){
 	layer.open({
 	  title:"添加员工",
 	  type: 2,
