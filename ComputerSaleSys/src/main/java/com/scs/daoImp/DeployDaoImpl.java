@@ -81,4 +81,28 @@ public class DeployDaoImpl extends HibernateDaoSupport implements DeployDao{
 		});
 	}
 
+
+	/**
+	 * 	删除配置
+	 */
+	@Override
+	public int deleteDeployByProductId(final Integer productId) {
+		return getHibernateTemplate().execute(new HibernateCallback<Integer>() {
+
+			@Override
+			public Integer doInHibernate(Session session) throws HibernateException {
+				try {
+					String hqlStr = "delete from Deploy where productId = ?";
+					Query query = session.createQuery(hqlStr);
+					query.setInteger(0, productId);
+					return query.executeUpdate();
+				} catch (Exception e) {
+					return 0;
+				}
+				
+				
+			}
+		});
+	}
+
 }

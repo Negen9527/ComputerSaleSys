@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title> - 数据表格</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <link rel="shortcut icon" href="favicon.ico"> <link href="css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="css/font-awesome.css?v=4.4.0" rel="stylesheet">
+
+    <!-- Data Tables -->
+    <link href="css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css?v=4.1.0" rel="stylesheet">
+	<link href="css/sweetalert2.min.css" rel="stylesheet">
+	<script src="js/sweetalert2.js" type="text/javascript"></script>
+	
+	<style type="text/css">
+		.float-e-margins .btn {
+		    margin-bottom: 0px;
+		}
+	
+	</style>
+	
+</head>
+
+<body class="gray-bg">
+<div class="modal fade" id="modify-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">修改</h4>
+            </div>
+            <div class="modal-body">
+                 
+                 <input type="hidden" placeholder="id" class="form-control" name="id" id='id'>
+                 
+                 <div class="form-group">
+                      	姓名：<input type="text" placeholder="姓名" class="form-control" name="name" id='name'>
+                 </div>
+                 <div class="form-group">
+                      	性别：<select class="form-control" name="sex" id="sex" placeholder="性别" style="font-size:12px;">
+									<option value="1">男</option>
+									<option value="0">女</option>
+							</select>
+                 </div>
+                 <div class="form-group">
+                     	电话：<input type="text" placeholder="电话" class="form-control" name="tel" id="tel">
+                 </div>
+                 <div class="form-group">
+                     	出生日期：<br><input id="birth" class="laydate-icon form-control layer-date" placeholder="请选择出生日期"/>
+                 </div>
+                 <div class="form-group">
+                     	入职日期：<br><input id="inTime" class="laydate-icon form-control layer-date" placeholder="请选择入职日期"/>
+                 </div>
+                 <div class="form-group">
+                     	家庭住址：<input type="text" placeholder="请输入住址" class="form-control" name="addr" id="addr">
+                 </div>
+                 <div class="form-group">
+                     	基本薪资：<input type="text" placeholder="基本薪资" class="form-control" name="basicSalary" id="basicSalary">
+                 </div>
+			</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="submitBtn">提交更改</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>标签管理</h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="table_data_tables.html#">
+                                <i class="fa fa-wrench"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-user">
+                                <li><a href="table_data_tables.html#">选项1</a>
+                                </li>
+                                <li><a href="table_data_tables.html#">选项2</a>
+                                </li>
+                            </ul>
+                            <a class="close-link">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+
+                        <table class="table table-striped table-bordered table-hover dataTables-example"
+                        id="editable" style="text-align:center">
+                            <thead >
+                                <tr >
+                                	<th></th>
+                                    <th>电脑名称</th>
+                                    <th>型号</th>
+                                    <th>数量</th>
+                                    <th>进货价格</th>
+                                    <th>进货时间</th>
+                                    <th>供应商</th>
+                                    <th style="text-align:center">操&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                               
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                	<th></th>
+                                    <th>电脑名称</th>
+                                    <th>型号</th>
+                                    <th>数量</th>
+                                    <th>进货价格</th>
+                                    <th>进货时间</th>
+                                    <th>供应商</th>
+                                    <th style="text-align:center">操&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;作</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+ 
+
+    <!-- 全局js -->
+    <script src="js/jquery.min.js?v=2.1.4"></script>
+    <script src="js/bootstrap.min.js?v=3.3.6"></script>
+
+
+
+    <script src="js/plugins/jeditable/jquery.jeditable.js"></script>
+
+    <!-- Data Tables -->
+    <script src="js/plugins/dataTables/jquery.dataTables.js"></script>
+    <script src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
+
+    <!-- 自定义js -->
+    <script src="js/content.js?v=1.0.0"></script>
+    <!-- layerDate plugin javascript -->
+    <script src="js/plugins/layer/laydate/laydate.js"></script>
+
+    <!-- Page-Level Scripts -->
+    <script>
+    var oldId,oldName,oldSex,oldTel,oldBirth,oldInTime,oldAddr,oldBasicSalary
+    
+    //保存
+    $("#submitBtn").click(function(){
+	    var newId = $("#id").val()
+	    var newName = $("#name").val()
+	    var newSex = $('#sex').val()
+	    var newTel = $('#tel').val()
+	    var newBirth = $('#birth').val()
+	    var newinTime = $('#inTime').val()
+	    var newAddr = $('#addr').val()
+	    var newBasicSalary = $('#basicSalary').val()
+	    Data = {
+	    	"id":newId,
+	    	"username":newName,
+	    	"sex":newSex,
+	    	"tel":newTel,
+	    	"birth":newBirth,
+	    	"inTime":newinTime,
+	    	"addr":newAddr,
+	    	"basicSalary":newBasicSalary
+	    }
+	    
+	    $.ajax({
+	    	type:"post",
+	    	url:"../modifyUser",
+	    	data:Data,
+	    	success:function(msg){
+	    		alert(msg)
+	    	}
+	    	
+	    });
+	    
+	    console.log(Data)
+	    
+	    
+	    
+    });
+    
+    
+    
+    
+    
+    
+    
+    $.ajax({
+    	type:"get",
+    	textType:"json",
+    	url:"../listProduct",
+    	success:function(data){
+    		//data = JSON.parse(data)
+    		$("#editable").dataTable().fnClearTable()
+    		$("#editable").dataTable().fnDestroy()
+        	table = $("#editable").dataTable({
+                "columnDefs": [
+                    {
+                        // targets用于指定操作的列，从第0列开始，-1为最后一列，这里第六列
+                        // return后边是我们希望在指定列填入的按钮代码
+                        "targets": -1,
+                        "render": function ( data, type, full, meta ) {
+                        	retStr = "<button id = 'deleteBtn' value = '删除' style='margin-bottom: 0px;' class='btn btn-w-s btn-danger'><i class='fa fa-remove'></i>&nbsp;&nbsp;<span class='bold'>删除</span></button>&nbsp;&nbsp;" + 
+                        	"<button id='modifyBtn' class='btn btn-w-s btn-success' type='button'><i class='fa fa-edit'></i>&nbsp;&nbsp;<span class='bold'>修改</span></button>";
+                            return retStr
+                        }
+                    }
+                ],
+                "columns": [
+                	{ "data":"id","visble":false},
+                    { "data": "name"},
+                    { "data": "typeId"},
+                    { "data": "amount"},
+                    { "data": "inPrice"},
+                    { "data": "inTime"},
+                    { "data": "supplier"},
+                    { "data": null}
+                ],
+ 				               
+                "data":data,
+                'ordering':false,
+            });
+    		
+    		
+    		//删除
+    		$("#editable tbody").on("click", "#deleteBtn", function () {
+    		    //获取行
+    		    var row = $("table#editable tr").index($(this).closest("tr"));
+    		    
+    		    //获取某列（从0列开始计数）的值
+    		    var id = $("table#editable").find("tr").eq(row).find("td").eq(0).text();
+    		    
+    		    swal({
+    		    	  title: '确认删除',
+    		    	  text: '删除后不可恢复',
+    		    	  type: 'warning',
+    		    	  showCancelButton: true,
+    		    	  confirmButtonText: '确定',
+    		    	  cancelButtonText: '取消',
+    		    	}).then(function(isConfirm) {
+    		    	  if (isConfirm === true) {
+    		    		$.ajax({
+    		    			url:'../deleteProduct',
+    		    			data:{"id":id},
+    		    			success:function(msg){
+    		    				if(msg["result"]==true){
+    		    					//删除成功
+    		    		    	    swal(
+    		    	    		    	      'Deleted!',
+    		    	    		    	      'Your imaginary file has been deleted.',
+    		    	    		    	      'success'
+    		    	    		    	    );
+    		    	    		    //前端删除
+    		    	    	        $("table#editable").find("tr:eq(" + row + ")").remove();
+    		    				}else{
+    		    					//删除失败
+    		    					console.log(msg)
+    		    					swal("哎呦……", "出错了！","error");
+    		    				}
+    		    			},
+    		    			error:function(){
+    		    				//删除失败
+    		    				console.log("error")
+    		    				swal("哎呦……", "出错了！","error");
+    		    			}
+    		    		});
+    		    		  
+    		    		  
+
+    		    	  } else if (isConfirm === false) {
+    		    	    swal(
+    		    	      'Cancelled',
+    		    	      'Your imaginary file is safe :)',
+    		    	      'error'
+    		    	    );
+    		    	  
+    		    	  } else {
+    		    	    // Esc, close button or outside click
+    		    	    // isConfirm is undefined
+    		    	  }
+    		    	});  
+    		});
+    		
+
+    		//修改
+    		$("#editable tbody").on("click", "#modifyBtn", function () {
+    			oldId,oldName,oldSex,oldTel,oldBirth,oldInTime,oldAddr,oldBasicSalary
+    			
+    		    //获取行
+    		    var row = $("table#editable tr").index($(this).closest("tr"));
+    		    index = row
+    		    //获取某列（从0列开始计数）的值
+    		    oldId = $("table#editable").find("tr").eq(row).find("td").eq(0).text();
+    		    oldName = $("table#editable").find("tr").eq(row).find("td").eq(1).text();
+    		    oldSex = ($("table#editable").find("tr").eq(row).find("td").eq(2).text()=="男")?(1):(0);
+    		    oldTel = $("table#editable").find("tr").eq(row).find("td").eq(3).text();
+    		    oldBirth = $("table#editable").find("tr").eq(row).find("td").eq(4).text();
+    		    oldInTime = $("table#editable").find("tr").eq(row).find("td").eq(5).text();
+    		    oldAddr = $("table#editable").find("tr").eq(row).find("td").eq(6).text();
+    		    oldBasicSalary = $("table#editable").find("tr").eq(row).find("td").eq(7).text().replace("元","");
+    		    
+    		    
+    		    
+    		    
+    		    $("#id").val(oldId)
+    		    $("#name").val(oldName)
+    		    $('#sex').val(oldSex)
+    		    $('#tel').val(oldTel)
+    		    $('#birth').val(oldBirth)
+    		    $('#inTime').val(oldInTime)
+    		    $('#addr').val(oldAddr)
+    		    $('#basicSalary').val(oldBasicSalary)
+    		    $("#modify-modal").modal("show")
+    		});
+    	}
+    });
+    
+    
+    //外部js调用
+    laydate({
+        elem: '#birth', //目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
+        event: 'focus' //响应事件。如果没有传入event，则按照默认的click
+    });    
+    //外部js调用
+    laydate({
+        elem: '#inTime', //目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
+        event: 'focus' //响应事件。如果没有传入event，则按照默认的click
+    });  
+    
+    var downloadTextFile = function(mobileCode,fileName) {
+    	  var file = new File([mobileCode], fileName + ".txt", { type: "text/plain;charset=utf-8" });
+    	  saveAs(file);
+    	}
+    </script>
+
+    
+    
+
+</body>
+<!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
+<script type="text/javascript" src="js/FileServer.js"></script>
+
+
+</html>

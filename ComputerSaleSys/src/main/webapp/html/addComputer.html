@@ -62,7 +62,7 @@
                                     </div>
                                     
                                     <div class="form-group">
-                                        <input type="text" placeholder="请输入重量" class="form-control" name="screenSize" id="weight">
+                                        <input type="number" placeholder="请输入重量" class="form-control" name="screenSize" id="weight">
                                     </div>
                                     
                                     <div class="form-group">
@@ -171,7 +171,12 @@
                     url:"../addProduct",
                     data:Data,
                     success:function(msg){
-                        alert(msg)
+                        if(msg["addResult"] == true){
+                        	swal("", "添加成功","success")
+                        	reset()
+                        }else{
+                        	swal("", "添加失败","error")
+                        }
                     }
                 });
             }       
@@ -180,7 +185,18 @@
 
         
    function reset(){
-	   $("#userName").val("")
+       $("#name").val("");
+       $("#typeId").val("");
+       $("#amount").val("");
+       $("#inPrice").val("");
+       $("#inTime").val("");
+       $("#supplier").val("");
+       $("#screenSize").val("");
+       $("#weight").val("");
+       $("#cpu").val("");
+       $("#videoCard").val("");
+       $("#ram").val("");
+       $("#hardPan").val("");
    }     
      
    

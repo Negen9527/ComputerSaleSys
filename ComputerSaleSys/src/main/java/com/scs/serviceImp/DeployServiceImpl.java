@@ -24,5 +24,17 @@ public class DeployServiceImpl implements DeployService{
 		else
 			return 0;
 	}
+
+
+	/**
+	 * 	删除配置
+	 */
+	@Override
+	public int deleteDeploy(Integer productId) {
+		if(productId > 0) 
+			return deployDao.deleteDeployByProductId(productId);
+		else
+			return 0;
+	}
 	
 }

@@ -135,11 +135,14 @@ public class ProductAction extends ActionSupport{
 					@Result(type="json", params={"root", "jsonData"})
 			})
 	public String deleteProduct() {
-		Integer id = Integer.parseInt(request.getParameter("id"));
-		Integer intResult = productService.deleteProductById(id);
+		Integer productId = Integer.parseInt(request.getParameter("id"));
+		Integer intResult = productService.deleteProductById(productId);
+		deployService.deleteDeploy(productId);
 		JSONObject temp = new JSONObject();
 		this.setJsonData(temp);
-		temp.put("deleteResult", intResult == 0?false:true);
+		
+		temp.put("result", intResult == 0?false:true);
+		
 		this.setJsonData(temp);
 		return SUCCESS;
 	}

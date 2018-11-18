@@ -10,4 +10,6 @@ public interface DeployDao {
 	Deploy selectDeployByProductId(Integer productId);
 	//修改配置
 	int updateDeploy(Deploy deploy);
+	//删除配置
+	int deleteDeployByProductId(Integer productId);
 }

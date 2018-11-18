@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.scs.dao.ProductDao;
 import com.scs.entity.Product;
 import com.scs.service.ProductService;
+import com.scs.utils.DateUtil;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -52,7 +53,7 @@ public class ProductServiceImpl implements ProductService{
 				tempJSON.put("amount", product.getAmount());
 				tempJSON.put("inPrice", product.getInPrice());
 				tempJSON.put("outPrice", product.getOutPrice());
-				tempJSON.put("inTime", product.getInTime());
+				tempJSON.put("inTime", DateUtil.date2str(product.getInTime()));
 				tempJSON.put("supplier", product.getSupplier());
 				jsonProdctArr.add(tempJSON);
 			}
