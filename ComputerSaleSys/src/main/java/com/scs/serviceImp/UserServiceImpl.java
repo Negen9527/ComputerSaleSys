@@ -72,7 +72,6 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public int modifyUserInfo(User user) {
 		if(null != user) {
-			System.out.println(user.toString());
 			return userDao.updateUser(user);
 		}
 			

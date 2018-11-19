@@ -39,13 +39,28 @@ public class ProductDaoImpl extends HibernateDaoSupport implements ProductDao{
 
 	
 	/**
-	 * 更新信息
+	 * 更新电脑信息
 	 */
 	@Override
-	public int update(Product product) {
+	public int update(final Product product) {
 		try {
-			getHibernateTemplate().update(product);
-			return 1;
+			return getHibernateTemplate().execute(new HibernateCallback<Integer>() {
+
+				@Override
+				public Integer doInHibernate(Session session) throws HibernateException {
+					Product cProduct = session.get(Product.class, product.getId());		
+					cProduct.setName(product.getName());
+					cProduct.setTypeId(product.getTypeId());
+					cProduct.setAmount(product.getAmount());
+					cProduct.setInPrice(product.getInPrice());
+					cProduct.setInTime(product.getInTime());
+					cProduct.setSupplier(product.getSupplier());
+					session.update(cProduct);
+					session.flush();
+					return 1;
+				}
+			});
+			
 		} catch (Exception e) {
 			return 0;
 		}

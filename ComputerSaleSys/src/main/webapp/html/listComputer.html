@@ -41,7 +41,7 @@
             </div>
             <div class="modal-body">
                  
-                 <input type="hidden" placeholder="id" class="form-control" name="id" id='id'>
+                 <input type="hidden" placeholder="id" class="form-control" name="productId" id='productId'>
                  
                                    <div class="form-group">
                                         <input type="text" placeholder="请输入品牌名" class="form-control" name="name" id="name">
@@ -66,7 +66,7 @@
                                         <input type="text" placeholder="请输入供应商" class="form-control" name="basicSalary" id="supplier">
                                     </div>
                                     
-                                    
+			<input type="hidden" placeholder="deployId" class="form-control" name="deployId" id='deployId'> 
                                     <div class="form-group">
                                         <input type="text" placeholder="请输入屏幕大小" class="form-control" name="screenSize" id="screenSize">
                                     </div>
@@ -187,38 +187,77 @@
     
     //保存
     $("#submitBtn").click(function(){
-	    var newId = $("#id").val()
-	    var newName = $("#name").val()
-	    var newSex = $('#sex').val()
-	    var newTel = $('#tel').val()
-	    var newBirth = $('#birth').val()
-	    var newinTime = $('#inTime').val()
-	    var newAddr = $('#addr').val()
-	    var newBasicSalary = $('#basicSalary').val()
-	    Data = {
-	    	"id":newId,
-	    	"username":newName,
-	    	"sex":newSex,
-	    	"tel":newTel,
-	    	"birth":newBirth,
-	    	"inTime":newinTime,
-	    	"addr":newAddr,
-	    	"basicSalary":newBasicSalary
-	    }
+	    var newId = $("#productId").val()
+	    var newName = $('#name').val()
+	    var newTypeId = $("#typeId").val()
+	    var newAmount = $('#amount').val()
+	    var newInPrice = $('#inPrice').val()
+	    var newInTime = $('#inTime').val()
+	    var newSupplier= $('#supplier').val()
 	    
-	    $.ajax({
-	    	type:"post",
-	    	url:"../modifyUser",
-	    	data:Data,
-	    	success:function(msg){
-	    		alert(msg)
-	    	}
-	    	
-	    });
-	    
-	    console.log(Data)
+	    var new_deployId = $('#deployId').val()
+	    var new_screenSize = $('#screenSize').val()
+	    var new_weight = $('#weight').val()
+	    var new_cpu = $('#cpu').val()
+	    var new_videoCard = $('#videoCard').val()
+	    var new_ram = $('#ram').val()
+	    var new_hardPan = $('#hardPan').val()
 	    
 	    
+	    if(newName == ""){swal("", "请输入电脑名","warning")}
+        else if(newTypeId == ""){swal("", "请输入型号","warning")} 
+        else if(newAmount == ""){swal("", "请输入数量","warning")}    
+        else if(newInPrice == ""){swal("", "请输入进货价格","warning")}    
+        else if(newInTime == ""){swal("", "请输入进货时间","warning")}    
+        else if(newSupplier == ""){swal("", "请输入供应商","warning")}    
+        else if(new_screenSize == ""){swal("", "请输入屏幕大小","warning")}    
+        else if(new_weight == ""){swal("", "请输入重量","warning")}    
+        else if(new_cpu == ""){swal("", "请输入cpu型号","warning")}    
+        else if(new_videoCard == ""){swal("", "请输入显卡型号","warning")}    
+        else if(new_ram == ""){swal("", "请输入ram型号","warning")}    
+        else if(new_hardPan == ""){swal("", "请输入硬盘型号","warning")}
+        else{
+    	    Data = {
+    		    	"id":newId,
+    		    	"name":newName,
+    		    	"typeId":newTypeId,
+    		    	"amount":newAmount,
+    		    	"inPrice":newInPrice,
+    		    	"inTime":newInTime,
+    		    	"supplier":newSupplier,
+    		    	
+    		    	"deployId":new_deployId,
+    		    	"screenSize":new_screenSize,
+    		    	"weight":new_weight,
+    		    	"cpu":new_cpu,
+    		    	"videoCard":new_videoCard,
+    		    	"ram":new_ram,
+    		    	"hardPan":new_hardPan
+    		    }
+    		    
+    		    $.ajax({
+    		    	type:"post",
+    		    	url:"../modifyProductInfo",
+    		    	data:Data,
+    		    	success:function(msg){
+    		    		if(msg['result'] == true){
+    		    			//修改成功
+    		    			swal("", "修改成功", "success")
+    		    		}else{
+    		    			swal("修改失败……", "出错了！","error");
+    		    		}
+    		    	},
+    		    	error:function(){
+    		    		swal("哎呦……", "出错了！","error");
+    		    	}
+    		    	
+    		    	
+    		    });
+        	
+        	
+        }
+	    
+
 	    
     });
     
@@ -340,26 +379,24 @@
     		    oldInPrice = $("table#editable").find("tr").eq(row).find("td").eq(4).text();
     		    oldInTime = $("table#editable").find("tr").eq(row).find("td").eq(5).text();
     		    oldSupplier = $("table#editable").find("tr").eq(row).find("td").eq(6).text();
-    		    console.log(oldId)
                 $.ajax({
                     url:"../detailDeploy",
                     data:{"productId":oldId},
                     success:function(msg){
-                        $("#id").val(oldId)
+                        $("#productId").val(oldId)
 		    		    $("#name").val(oldName)
 		    		    $('#typeId').val(oldTypeId)
 		    		    $('#amount').val(oldAmount)
 		    		    $('#inPrice').val(oldInPrice)
 		    		    $('#inTime').val(oldInTime)
 		    		    $('#supplier').val(oldSupplier)
+		    		    $('#deployId').val(msg['deployId'])
 		    		    $('#screenSize').val(msg["screenSize"])
 		    		    $('#weight').val(msg["weight"])
 		    		    $('#cpu').val(msg["cpu"])
 		    		    $('#videoCard').val(msg["videoCard"])
 		    		    $('#ram').val(msg["ram"])
 		    		    $('#hardPan').val(msg["hardPan"])
-		    		    
-                        
                     }
                 });
     		    

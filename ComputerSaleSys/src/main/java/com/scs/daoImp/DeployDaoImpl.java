@@ -1,6 +1,5 @@
 package com.scs.daoImp;
 
-import javax.transaction.Transactional;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
@@ -62,7 +61,7 @@ public class DeployDaoImpl extends HibernateDaoSupport implements DeployDao{
 			@Override
 			public Integer doInHibernate(Session session) throws HibernateException {
 				try {
-					String hqlStr = "update deploy set screenSize=?,"
+					String hqlStr = "update Deploy set screenSize=?,"
 							+ "weight=?,"
 							+ "cpu=?,"
 							+ "videoCard=?,"
@@ -78,6 +77,7 @@ public class DeployDaoImpl extends HibernateDaoSupport implements DeployDao{
 					query.setInteger(6, deploy.getProductId());
 					return query.executeUpdate();
 				} catch (Exception e) {
+					e.printStackTrace();
 					return 0;
 				}
 				

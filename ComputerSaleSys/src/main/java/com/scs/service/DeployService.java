@@ -16,4 +16,7 @@ public interface DeployService {
 	//通过productId查询deploy
 	JSONObject selectDeployByProductId(Integer productId);
 	
+	//修改配置
+	int modifyDeployInfo(Deploy deploy);
+	
 }

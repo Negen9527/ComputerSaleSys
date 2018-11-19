@@ -162,6 +162,42 @@ public class ProductAction extends ActionSupport{
 	}
 	
 	
+	/**
+	 *  修改电脑信息
+	 * @return
+	 */
+	@Action(value="modifyProductInfo",
+			results = {
+					@Result(type="json",params= {"root","jsonData"})
+			})
+	public String modifyProductInfo() {
+		Product product = getProductData(request);
+		product.setId(Integer.parseInt(request.getParameter("id")));
+		if(null != product) {
+			String screenSize = request.getParameter("screenSize");
+			Double weight = Double.parseDouble(request.getParameter("weight"));
+			String cpu = request.getParameter("cpu");
+			String videoCard = request.getParameter("videoCard");
+			String ram = request.getParameter("ram");
+			String hardPan = request.getParameter("hardPan");
+			Deploy deploy = new Deploy();
+			deploy.setScreenSize(screenSize);
+			deploy.setWeight(weight);
+			deploy.setCpu(cpu);
+			deploy.setVideoCard(videoCard);
+			deploy.setRam(ram);
+			deploy.setHardPan(hardPan);
+			deploy.setProductId(product.getId());
+			productService.modifyProductInfo(product);
+			Integer intResult = deployService.modifyDeployInfo(deploy);
+			JSONObject tempJSON = new JSONObject();
+			tempJSON.put("result", intResult == 0?false:true);
+			this.setJsonData(tempJSON);
+		}
+		return SUCCESS;
+	}
+	
+	
 	
 	
 	

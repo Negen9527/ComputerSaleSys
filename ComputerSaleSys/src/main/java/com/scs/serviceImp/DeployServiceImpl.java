@@ -50,6 +50,7 @@ public class DeployServiceImpl implements DeployService{
 		JSONObject jsonObject = null;
 		if(null != deploy) {
 			jsonObject = new JSONObject();
+			jsonObject.put("deployId", deploy.getId());
 			jsonObject.put("screenSize", deploy.getScreenSize());
 			jsonObject.put("weight", deploy.getWeight());
 			jsonObject.put("cpu", deploy.getCpu());
@@ -59,6 +60,16 @@ public class DeployServiceImpl implements DeployService{
 		}
 		return jsonObject;
 			
+	}
+
+
+	/**
+	 * 	修改配置
+	 * 
+	 */
+	@Override
+	public int modifyDeployInfo(Deploy deploy) {
+		return deployDao.updateDeploy(deploy); 
 	}
 	
 }

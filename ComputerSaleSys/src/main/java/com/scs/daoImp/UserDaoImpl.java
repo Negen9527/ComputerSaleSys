@@ -54,7 +54,6 @@ public class UserDaoImpl extends HibernateDaoSupport implements UserDao{
 			public Integer doInHibernate(Session session) throws HibernateException {
 				try {
 					//成功
-					System.out.println(user.getId());
 					User cUser = session.get(User.class, user.getId());
 					
 					cUser.setUsername(user.getUsername());
@@ -64,7 +63,6 @@ public class UserDaoImpl extends HibernateDaoSupport implements UserDao{
 					cUser.setAddr(user.getAddr());
 					cUser.setBasicSalary(user.getBasicSalary());
 					cUser.setTel(user.getTel());
-					System.out.println(cUser.toString());
 					session.update(cUser);
 					session.flush();
 					return 1;
