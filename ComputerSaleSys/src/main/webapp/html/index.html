@@ -89,13 +89,13 @@
                     <li>
                         <a href="#">
                             <i class="fa fa-music"></i>
-                            <span class="nav-label">歌曲管理</span>
+                            <span class="nav-label">销售管理</span>
                             <span class="fa arrow"></span>
                         </a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a class="J_menuItem" href="#" onclick="addMusic()">添加歌曲</a>
-                                <a class="J_menuItem" href="listMusics.html">歌曲列表</a>
+                                <a class="J_menuItem" href="addSoldNote.html">添加销售记录</a>
+                                <a class="J_menuItem" href="listSoldNote.html">销售记录列表</a>
                             </li>
                         </ul>
                     </li>
@@ -178,14 +178,14 @@ function addFile(){
 	});
 }
 
-function addMusic(){
+function addSoldNote(){
 	layer.open({
-	  title:"添加歌曲",
+	  title:"添加销售记录",
 	  type: 2,
 	  area: ['700px', '400px'],
 	  fixed: true,
 	  maxmin: true,
-	  content: 'addMusic.html?t=' + new Date().getTime()
+	  content: 'addSoldNote.html?t=' + new Date().getTime()
 	});
 }
 </script>
