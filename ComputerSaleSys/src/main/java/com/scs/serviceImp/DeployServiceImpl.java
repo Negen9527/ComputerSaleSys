@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import com.scs.dao.DeployDao;
 import com.scs.entity.Deploy;
 import com.scs.service.DeployService;
+
+import net.sf.json.JSONObject;
 @Service("deployService")
 public class DeployServiceImpl implements DeployService{
 	@Resource(name = "deployDao")
@@ -35,6 +37,28 @@ public class DeployServiceImpl implements DeployService{
 			return deployDao.deleteDeployByProductId(productId);
 		else
 			return 0;
+	}
+
+
+	/**
+	 * 	通过productId查询deploy
+	 * 
+	 */
+	@Override
+	public JSONObject selectDeployByProductId(Integer productId) {
+		Deploy deploy =  deployDao.selectDeployByProductId(productId);
+		JSONObject jsonObject = null;
+		if(null != deploy) {
+			jsonObject = new JSONObject();
+			jsonObject.put("screenSize", deploy.getScreenSize());
+			jsonObject.put("weight", deploy.getWeight());
+			jsonObject.put("cpu", deploy.getCpu());
+			jsonObject.put("videoCard", deploy.getVideoCard());
+			jsonObject.put("ram", deploy.getRam());
+			jsonObject.put("hardPan", deploy.getHardPan());
+		}
+		return jsonObject;
+			
 	}
 	
 }

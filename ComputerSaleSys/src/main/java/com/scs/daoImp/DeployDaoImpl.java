@@ -29,6 +29,10 @@ public class DeployDaoImpl extends HibernateDaoSupport implements DeployDao{
 	}
 
 
+	
+	/**
+	 * 	根据productId查询deploy
+	 */
 	@Override
 	public Deploy selectDeployByProductId(final Integer productId) {
 		return getHibernateTemplate().execute(new HibernateCallback<Deploy>() {
@@ -104,5 +108,9 @@ public class DeployDaoImpl extends HibernateDaoSupport implements DeployDao{
 			}
 		});
 	}
+	
+	
+	
+	
 
 }
