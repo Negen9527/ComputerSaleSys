@@ -7,10 +7,11 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.orm.hibernate5.HibernateCallback;
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
+import org.springframework.stereotype.Repository;
 
 import com.scs.dao.SalesDao;
 import com.scs.entity.Sales;
-
+@Repository("salesDao")
 public class SalesDaoImpl extends HibernateDaoSupport implements SalesDao{
 	private String hqlStr = ""; 
 	/**
