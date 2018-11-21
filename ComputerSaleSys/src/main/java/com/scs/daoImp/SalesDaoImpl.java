@@ -20,7 +20,9 @@ public class SalesDaoImpl extends HibernateDaoSupport implements SalesDao{
 	@Override
 	public int saveSales(Sales sales) {
 		try {
+			System.out.println(sales.toString());
 			getHibernateTemplate().save(sales);
+		
 			return 1;
 		} catch (Exception e) {
 			return 0;

@@ -54,12 +54,13 @@ public class SalesAction extends ActionSupport{
 		HttpServletRequest request = ServletActionContext.getRequest();
 		JSONObject jsonResult = new JSONObject();
 		try {
-			Integer saleManId = Integer.parseInt(request.getParameter("saleManId"));
+			Integer saleManId = Integer.parseInt(request.getParameter("salesManId"));
 			Integer productId = Integer.parseInt(request.getParameter("productId"));
 			Double outPrice = Double.parseDouble(request.getParameter("outPrice"));
-			Date saleTime = DateUtil.str2date(request.getParameter("saleTime"));
+			Date saleTime = DateUtil.str2date(request.getParameter("salesTime"));
 			String buyerName = request.getParameter("buyerName");
-			String buyTel = request.getParameter("buyTel");
+			String buyTel = request.getParameter("buyerTel");
+			String productName = request.getParameter("productName");
 			Sales sales = new Sales();
 			sales.setSalesManId(saleManId);
 			sales.setProductId(productId);
@@ -67,7 +68,7 @@ public class SalesAction extends ActionSupport{
 			sales.setSalesTime(saleTime);
 			sales.setBuyerName(buyerName);
 			sales.setBuyTel(buyTel);
-			System.out.println(sales.toString());
+			sales.setProductName(productName);
 			jsonResult.put("result", salesService.addSaveSales(sales) == 0?false:true);
 			
 			

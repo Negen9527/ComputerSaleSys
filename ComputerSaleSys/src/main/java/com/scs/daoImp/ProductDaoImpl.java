@@ -90,6 +90,10 @@ public class ProductDaoImpl extends HibernateDaoSupport implements ProductDao{
 		});
 		
 	}
+	
+	
+	
+	
 
 	
 	/**
@@ -134,6 +138,24 @@ public class ProductDaoImpl extends HibernateDaoSupport implements ProductDao{
 			}
 		});
 		
+	}
+
+
+	/**
+	 * 	修改产品数量
+	 */
+	@Override
+	public int modifyAmount(final Integer id,final Integer amount) {
+		getHibernateTemplate().execute(new HibernateCallback<Integer>() {
+
+			@Override
+			public Integer doInHibernate(Session session) throws HibernateException {
+				String hqlStr = "";
+				
+				return null;
+			}
+		});
+		return 0;
 	}
 
 }

@@ -41,7 +41,8 @@
             </div>
             <div class="modal-body">
                  
-                 <input type="hidden" placeholder="id" class="form-control" name="productId" id='productId'>
+                 <input type="hidden" placeholder="productId" class="form-control" name="productId" id='productId'>
+                 <input type="hidden" placeholder="'productName'" class="form-control" name="productName" id='productName'>
                  
                                    <div class="form-group">
                                         <input type="text" placeholder="请输入买家姓名" class="form-control" name="buyerName" id="buyerName">
@@ -164,68 +165,43 @@
     
     //保存
     $("#submitBtn").click(function(){
-	    var newId = $("#productId").val()
-	    var newName = $('#name').val()
-	    var newTypeId = $("#typeId").val()
-	    var newAmount = $('#amount').val()
-	    var newInPrice = $('#inPrice').val()
-	    var newInTime = $('#inTime').val()
-	    var newSupplier= $('#supplier').val()
-	    
-	    var new_deployId = $('#deployId').val()
-	    var new_screenSize = $('#screenSize').val()
-	    var new_weight = $('#weight').val()
-	    var new_cpu = $('#cpu').val()
-	    var new_videoCard = $('#videoCard').val()
-	    var new_ram = $('#ram').val()
-	    var new_hardPan = $('#hardPan').val()
+	    var buyerName = $("#buyerName").val()
+	    var buyerTel = $('#buyerTel').val()
+	    var outPrice = $("#outPrice").val()
+	    var salesTime = $('#salesTime').val()
+	    var salesManId = $('#salesManId').val()
 	    
 	    
-	    if(newName == ""){swal("", "请输入电脑名","warning")}
-        else if(newTypeId == ""){swal("", "请输入型号","warning")} 
-        else if(newAmount == ""){swal("", "请输入数量","warning")}    
-        else if(newInPrice == ""){swal("", "请输入进货价格","warning")}    
-        else if(newInTime == ""){swal("", "请输入进货时间","warning")}    
-        else if(newSupplier == ""){swal("", "请输入供应商","warning")}    
-        else if(new_screenSize == ""){swal("", "请输入屏幕大小","warning")}    
-        else if(new_weight == ""){swal("", "请输入重量","warning")}    
-        else if(new_cpu == ""){swal("", "请输入cpu型号","warning")}    
-        else if(new_videoCard == ""){swal("", "请输入显卡型号","warning")}    
-        else if(new_ram == ""){swal("", "请输入ram型号","warning")}    
-        else if(new_hardPan == ""){swal("", "请输入硬盘型号","warning")}
+	    if(buyerName == ""){swal("", "请输入电脑名","warning")}
+        else if(buyerTel == ""){swal("", "请输入型号","warning")} 
+        else if(outPrice == ""){swal("", "请输入数量","warning")}    
+        else if(salesTime == ""){swal("", "请输入进货价格","warning")}    
+        else if(salesManId == ""){swal("", "请输入进货时间","warning")}    
         else{
     	    Data = {
-    		    	"id":newId,
-    		    	"name":newName,
-    		    	"typeId":newTypeId,
-    		    	"amount":newAmount,
-    		    	"inPrice":newInPrice,
-    		    	"inTime":newInTime,
-    		    	"supplier":newSupplier,
-    		    	
-    		    	"deployId":new_deployId,
-    		    	"screenSize":new_screenSize,
-    		    	"weight":new_weight,
-    		    	"cpu":new_cpu,
-    		    	"videoCard":new_videoCard,
-    		    	"ram":new_ram,
-    		    	"hardPan":new_hardPan
+    		    	"productId":$('#productId').val(),
+    		    	"productName":$('#productName').val(),
+    		    	"buyerName":buyerName,
+    		    	"buyerTel":buyerTel,
+    		    	"outPrice":outPrice,
+    		    	"salesTime":salesTime,
+    		    	"salesManId":salesManId,
     		    }
-    		    
+    		    console.log(Data)
     		    $.ajax({
     		    	type:"post",
-    		    	url:"../modifyProductInfo",
+    		    	url:"../addSales",
     		    	data:Data,
     		    	success:function(msg){
     		    		if(msg['result'] == true){
     		    			//修改成功
-    		    			swal("", "修改成功", "success")
+    		    			swal("", "添加成功", "success")
     		    		}else{
-    		    			swal("修改失败……", "出错了！","error");
+    		    			swal("添加失败……", "出错了！","error");
     		    		}
     		    	},
     		    	error:function(){
-    		    		swal("哎呦……", "出错了！","error");
+    		    		swal("哎呦……", "服务器出错了！","error");
     		    	}
     		    	
     		    	
@@ -298,22 +274,25 @@
     		    oldInPrice = $("table#editable").find("tr").eq(row).find("td").eq(4).text();
     		    oldInTime = $("table#editable").find("tr").eq(row).find("td").eq(5).text();
     		    oldSupplier = $("table#editable").find("tr").eq(row).find("td").eq(6).text();
+    		    console.log(oldId)
                 $.ajax({
                     url:"../listUser",
                     success:function(msg){
+                    	$('#salesManId').empty()
                     	for(var i=0; i < msg.length; i++){
                     		console.log(msg[i])
                     		userId = msg[i].id
                     		console.log(userId)
                     		userName = msg[i].userName
                     		option = "<option value='" + userId + "'>" + userName + "</option>"
-                    		console.log(option)
+                    		
                     		$('#salesManId').append(option)
                     	}
 						
                     }
                 });
-
+    		    $('#productId').val(oldId)
+				$('#productName').val(oldName)
     		    $("#modify-modal").modal("show")
     		});
     	}

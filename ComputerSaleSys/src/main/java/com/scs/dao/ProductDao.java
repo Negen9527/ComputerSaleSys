@@ -13,6 +13,8 @@ public interface ProductDao {
 	int update(Product product);
 	//删除电脑信息，通过id
 	int delete(Integer id);
+	//修改数量
+	int modifyAmount(Integer id,Integer amount);
 	//统计页数
 	int totalPages();
 	//分页查询
