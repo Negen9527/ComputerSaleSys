@@ -1,5 +1,6 @@
 package com.scs.serviceImp;
 
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -49,11 +50,11 @@ public class SalaryServiceImpl implements SalaryService{
 	public JSONArray selectAllSalaryByMonth(String month) {
 		JSONArray resltArr = new JSONArray();
 		List<User> users = userDao.selectAllUsers();
-		Map<Integer, User> salaryMap = new HashMap<Integer, User>();
+		Map<Integer, User> basicSalaryMap = new HashMap<Integer, User>();
+		Map<Integer, Double> salaryMap = new HashMap<Integer, Double>();
 		if(null != users) {
 			for (User user : users) {
-				salaryMap.put(user.getId(), user);
-				
+				basicSalaryMap.put(user.getId(), user);
 			}
 			
 		}
@@ -64,22 +65,28 @@ public class SalaryServiceImpl implements SalaryService{
 				Integer userId = (Integer)row[0];
 				String username = (String)row[1];
 				Double total = (Double)row[2];
-				Integer count = (Integer)row[3];
-				salaryMap.get(userId).setBasicSalary(salaryMap.get(userId).getBasicSalary() + total*0.3);
+				BigInteger count = (BigInteger)row[3];
+				User tUser = basicSalaryMap.get(userId);
+				Double reward = tUser.getBasicSalary() + 0.3*total;
+				salaryMap.put(userId, reward);
 			}
 		}
 		
-		Set<Integer> keys = salaryMap.keySet();
-		for (Integer key : keys) {
-			String name = salaryMap.get(key).getUsername();
-			Double salary = salaryMap.get(key).getBasicSalary();
+		Set<Integer> basicKeys = basicSalaryMap.keySet();
+		for (Integer basicKey : basicKeys) {
+			String name = basicSalaryMap.get(basicKey).getUsername();
+			Double basicSalary = basicSalaryMap.get(basicKey).getBasicSalary();
 			JSONObject temp = new JSONObject();
 			temp.put("name", name);
-			temp.put("salary", salary);
+			temp.put("basicSalary", basicSalary);
+			temp.put("salary", basicSalary);
+			Double t = salaryMap.get(basicKey);
+			if(null != t) {
+				temp.put("salary", t);
+			}
 			resltArr.add(temp);
 		}
-		System.out.println(resltArr.toString());
-		return null;
+		return resltArr;
 	}
 
 }

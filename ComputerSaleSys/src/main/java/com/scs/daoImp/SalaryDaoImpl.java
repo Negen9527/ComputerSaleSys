@@ -23,18 +23,19 @@ public class SalaryDaoImpl extends HibernateDaoSupport implements SalaryDao{
 			public Object doInHibernate(Session session) throws HibernateException {
 				try {
 					String sqlStr = "SELECT\r\n" + 
-							"user.`id` AS userId,user.`username` AS username,SUM(sales.`outPrice`) AS total,COUNT(sales.`outPrice`) AS COUNT\r\n" + 
+							"user.id AS userId,user.username AS username,SUM(sales.outPrice) AS total,COUNT(sales.outPrice) AS COUNT\r\n" + 
 							"FROM\r\n" + 
-							"    `db_computer_sale`.`product`\r\n" + 
-							"    INNER JOIN `db_computer_sale`.`sales` \r\n" + 
-							"        ON (`product`.`id` = `sales`.`productId`)\r\n" + 
-							"    INNER JOIN `db_computer_sale`.`user` \r\n" + 
-							"        ON (`user`.`id` = `sales`.`salesManId`)\r\n" + 
-							"    WHERE DATE_FORMAT(sales.`salesTime`, '%Y%m')=? GROUP BY user.`username` ORDER BY total DESC ";
+							"    db_computer_sale.product\r\n" + 
+							"    INNER JOIN db_computer_sale.sales\r\n" + 
+							"        ON (product.id = sales.productId)\r\n" + 
+							"    INNER JOIN db_computer_sale.user \r\n" + 
+							"        ON (user.id = sales.salesManId)\r\n" + 
+							"    WHERE DATE_FORMAT(sales.salesTime, '%Y%m')='"+yearAndMonth+"' GROUP BY user.username ORDER BY total DESC ";
 					Query query = session.createSQLQuery(sqlStr);
-					query.setString(0, yearAndMonth);
+//					query.setString(0, yearAndMonth);
 					return query.list();
 				} catch (Exception e) {
+					e.printStackTrace();
 					return null;
 				}
 			}

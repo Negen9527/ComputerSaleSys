@@ -1,7 +1,9 @@
 package com.scs.action;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
@@ -26,14 +28,14 @@ public class SalaryAction extends ActionSupport{
 	
 	
 	
-	public JSONArray getJsonArrDate() {
+	public JSONArray getJsonArrData() {
 		return jsonArrData;
 	}
 
 
 
 
-	public void setJsonArrDate(JSONArray jsonArrData) {
+	public void setJsonArrData(JSONArray jsonArrData) {
 		this.jsonArrData = jsonArrData;
 	}
 
@@ -48,7 +50,9 @@ public class SalaryAction extends ActionSupport{
 					@Result(type="json",params= {"root","jsonArrData"})
 			})
 	public String allSalaryByMonth() {
-		salaryService.selectAllSalaryByMonth("201810");
+		HttpServletRequest request = ServletActionContext.getRequest();
+		String yearAndMonth = request.getParameter("yearAndMonth");
+		this.setJsonArrData(salaryService.selectAllSalaryByMonth(yearAndMonth));;
 		return SUCCESS;
 	}
 	
