@@ -96,4 +96,13 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 
+	/**
+	 * 	退货添加数量
+	 */
+	@Override
+	public void addAmount(Integer productId) {
+		productDao.addAmount(productId);
+	}
+
+
 }

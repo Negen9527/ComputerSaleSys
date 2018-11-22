@@ -16,4 +16,5 @@ public interface SalesService {
 	//删除销售记录
 	int deleteSold(Integer id);
 	
+
 }

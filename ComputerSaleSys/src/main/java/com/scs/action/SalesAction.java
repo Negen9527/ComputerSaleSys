@@ -140,8 +140,15 @@ public class SalesAction extends ActionSupport{
 					@Result(type="json",params= {"root","jsonData"})
 			})
 	public String deleteSold() {
-		
-		
+		HttpServletRequest request = ServletActionContext.getRequest();
+		Integer soldId = Integer.parseInt(request.getParameter("soldId"));
+		Integer productId = Integer.parseInt(request.getParameter("productId"));
+		//增加产品数量
+		productService.addAmount(productId);
+		//删除销售记录
+		JSONObject tempJSON = new JSONObject();
+		tempJSON.put("result", salesService.deleteSold(soldId) == 0?false:true);
+		this.setJsonData(tempJSON);
 		return SUCCESS;
 	}
 	

@@ -15,6 +15,8 @@ public interface ProductDao {
 	int delete(Integer id);
 	//修改数量
 	int modifyAmount(Integer id,Integer amount);
+	//退货添加数量
+	int addAmount(Integer id);
 	//统计页数
 	int totalPages();
 	//分页查询

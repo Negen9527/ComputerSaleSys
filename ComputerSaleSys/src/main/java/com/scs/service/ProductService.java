@@ -13,4 +13,6 @@ public interface ProductService {
 	int deleteProductById(Integer id);
 	//修改数量
 	int updateAmount(Integer id, Integer amount);
+	//退货添加数量
+	void addAmount(Integer productId);
 }

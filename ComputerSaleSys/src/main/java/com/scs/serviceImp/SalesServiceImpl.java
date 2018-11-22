@@ -71,10 +71,15 @@ public class SalesServiceImpl implements SalesService{
 
 
 
+	/**
+	 * 	删除销售记录
+	 * 
+	 */
 	@Override
 	public int deleteSold(Integer id) {
 		
 		return salesDao.deleteSales(id);
 	}
+
 
 }
