@@ -21,13 +21,14 @@ import com.scs.service.SalesService;
 import com.scs.utils.DateUtil;
 
 import freemarker.core.ReturnInstruction.Return;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 @ParentPackage("json-default")
 @Namespace(value = "/")
 public class SalesAction extends ActionSupport{
 	private JSONObject jsonData = new JSONObject();
-	
+	private JSONArray jsonArrData = new JSONArray();
 	@Resource(name = "salesService")
 	private SalesService salesService;
 	
@@ -54,6 +55,18 @@ public class SalesAction extends ActionSupport{
 
 	public JSONObject getJsonData() {
 		return jsonData;
+	}
+
+
+
+	public JSONArray getJsonArrData() {
+		return jsonArrData;
+	}
+
+
+
+	public void setJsonArrData(JSONArray jsonArrData) {
+		this.jsonArrData = jsonArrData;
 	}
 
 
@@ -102,4 +115,40 @@ public class SalesAction extends ActionSupport{
 		System.out.println(jsonData.toString());
 		return SUCCESS;
 	}
+	
+	
+	/**
+	 * 	所有销售记录
+	 * @return
+	 */
+	@Action(value = "allSold",
+			results = {
+					@Result(type = "json", params = {"root", "jsonArrData"})
+			})
+	public String allSold() {
+		this.setJsonArrData(salesService.selectAllSoldNote());
+		return SUCCESS;
+	}
+	
+	
+	
+	/**
+	 * 	删除销售记录
+	 */
+	@Action(value="/deleteSold",
+			results= {
+					@Result(type="json",params= {"root","jsonData"})
+			})
+	public String deleteSold() {
+		
+		
+		return SUCCESS;
+	}
+	
+	
+	
+	
+	
+	
+	
 }

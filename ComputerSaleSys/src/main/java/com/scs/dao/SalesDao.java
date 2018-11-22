@@ -13,4 +13,8 @@ public interface SalesDao {
 	//取出所有
 	List<Sales> selectAllSales();
 	
+	//所有销售记录
+	Object selectAllSoldNote();
+
+	
 }

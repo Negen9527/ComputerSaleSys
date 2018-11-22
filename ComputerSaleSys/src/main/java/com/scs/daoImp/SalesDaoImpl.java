@@ -66,4 +66,34 @@ public class SalesDaoImpl extends HibernateDaoSupport implements SalesDao{
 		return saless;
 	}
 
+
+	/**
+	 * 	取出所有销售记录
+	 * 
+	 */
+	@Override
+	public Object selectAllSoldNote() {
+		return getHibernateTemplate().execute(new HibernateCallback<List<Object[]>>() {
+			@Override
+			public List<Object[]> doInHibernate(Session session) throws HibernateException {
+				try {
+					String sqlStr = "SELECT\r\n" + 
+							"sales.`id` AS soldId,sales.`buyerName`,sales.`buyTel`,sales.`outPrice`,sales.`salesTime`,product.id AS productId,product.`name`,product.`typeId`\r\n" + 
+							"FROM\r\n" + 
+							"    `db_computer_sale`.`product`\r\n" + 
+							"    INNER JOIN `db_computer_sale`.`sales` \r\n" + 
+							"        ON (`product`.`id` = `sales`.`productId`)\r\n" + 
+							"    INNER JOIN `db_computer_sale`.`user` \r\n" + 
+							"        ON (`user`.`id` = `sales`.`salesManId`)";
+					Query query = session.createSQLQuery(sqlStr);
+					List rList = query.list();
+					return rList;
+				} catch (Exception e) {
+					e.printStackTrace();
+					return null;
+				}
+			}
+		});
+	}
+
 }
