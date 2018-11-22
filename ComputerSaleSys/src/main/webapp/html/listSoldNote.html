@@ -164,11 +164,12 @@
     		//删除
     		$("#editable tbody").on("click", "#deleteBtn", function () {
     		    //获取行
-    		    var row = $("table#editable tr").index($(this).closest("tr")) - 1;
+    		    var row = $("table#editable tr").index($(this).closest("tr")) -1;
     		    
     		    //获取某列（从0列开始计数）的值
     		    //var soldId = $("table#editable").find("tr").eq(row).find("td").eq(0).text();
     		    //var productId = $("table#editable").find("tr").eq(row).find("td").eq(5).text();
+    		    console.log(row)
     		    soldId = $("table#editable").DataTable().row(row).data().soldId;
     		    productId = $("table#editable").DataTable().row(row).data().productId;
     		    swal({
@@ -192,6 +193,7 @@
     		    	    		    	      'success'
     		    	    		    	    );
     		    	    		    //前端删除
+    		    	    		    row = row + 1
     		    	    	        $("table#editable").find("tr:eq(" + row + ")").remove();
     		    				}else{
     		    					//删除失败
