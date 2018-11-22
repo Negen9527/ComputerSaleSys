@@ -30,9 +30,11 @@ CREATE TABLE `deploy` (
   `ram` varchar(64) DEFAULT NULL,
   `hardPan` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Data for the table `deploy` */
+
+insert  into `deploy`(`id`,`productId`,`screenSize`,`weight`,`cpu`,`videoCard`,`ram`,`hardPan`) values (2,9,'15.6',5,'i7','英伟达','未知','未知');
 
 /*Table structure for table `product` */
 
@@ -41,16 +43,18 @@ DROP TABLE IF EXISTS `product`;
 CREATE TABLE `product` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(128) NOT NULL,
-  `typeId` varchar(128) DEFAULT NULL,
+  `typeId` varchar(128) NOT NULL,
   `amount` int(11) NOT NULL DEFAULT '0',
   `inPrice` double NOT NULL,
-  `outPrice` double NOT NULL,
+  `outPrice` double DEFAULT NULL,
   `inTime` date NOT NULL,
   `supplier` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 /*Data for the table `product` */
+
+insert  into `product`(`id`,`name`,`typeId`,`amount`,`inPrice`,`outPrice`,`inTime`,`supplier`) values (9,'联想','y500',501,5000,NULL,'2018-10-30','联想');
 
 /*Table structure for table `salary` */
 
@@ -78,11 +82,13 @@ CREATE TABLE `sales` (
   `outPrice` double NOT NULL,
   `salesTime` date NOT NULL,
   `buyerName` varchar(64) NOT NULL,
-  `buyerTel` varchar(11) NOT NULL,
+  `buyTel` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 /*Data for the table `sales` */
+
+insert  into `sales`(`id`,`salesManId`,`productId`,`productName`,`outPrice`,`salesTime`,`buyerName`,`buyTel`) values (2,4,9,'联想',5000,'2018-11-21','测试买家','13800138222'),(3,3,9,'联想',5555,'2018-11-21','张三','1355555555'),(6,4,9,'联想',5600,'2018-10-27','测试买家3','1300125487'),(7,4,9,'联想',6500,'2018-10-27','测试买家4','1355122222'),(8,4,9,'联想',5557,'2018-10-28','测试买家5','13000000000');
 
 /*Table structure for table `user` */
 
@@ -91,7 +97,7 @@ DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(128) NOT NULL,
-  `password` varchar(128) NOT NULL,
+  `password` varchar(128) DEFAULT NULL,
   `sex` int(1) NOT NULL DEFAULT '1',
   `birth` date NOT NULL,
   `addr` varchar(256) NOT NULL,
@@ -100,11 +106,11 @@ CREATE TABLE `user` (
   `isDelete` tinyint(1) NOT NULL DEFAULT '0',
   `tel` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 /*Data for the table `user` */
 
-insert  into `user`(`id`,`username`,`password`,`sex`,`birth`,`addr`,`inTime`,`basicSalary`,`isDelete`,`tel`) values (1,'test','123455',1,'2018-11-16','南山','2018-11-02 11:16:49',3200,0,'13800138000');
+insert  into `user`(`id`,`username`,`password`,`sex`,`birth`,`addr`,`inTime`,`basicSalary`,`isDelete`,`tel`) values (2,'张三',NULL,1,'2010-06-14','南山大道','2018-11-14 16:00:00',3500,0,'13551256664'),(3,'李四',NULL,1,'1961-11-13','北山大道','1997-11-14 16:00:00',3200,0,'13800138000'),(4,'王五',NULL,1,'1961-11-13','北山大道','1997-11-14 16:00:00',3200,0,'13800138000'),(5,'测试',NULL,1,'2018-10-27','南山区','2018-10-28 16:00:00',3400,0,'13551256634');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
