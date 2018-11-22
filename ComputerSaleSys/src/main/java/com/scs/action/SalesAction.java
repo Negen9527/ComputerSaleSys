@@ -16,6 +16,7 @@ import org.omg.CORBA.PRIVATE_MEMBER;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.scs.entity.Sales;
+import com.scs.service.ProductService;
 import com.scs.service.SalesService;
 import com.scs.utils.DateUtil;
 
@@ -30,14 +31,29 @@ public class SalesAction extends ActionSupport{
 	@Resource(name = "salesService")
 	private SalesService salesService;
 	
+	@Resource(name = "productService")
+	private ProductService productService;
 	
 	public void setSalesService(SalesService salesService) {
 		this.salesService = salesService;
 	}
 
 
+	
+	public void setProductService(ProductService productService) {
+		this.productService = productService;
+	}
+
+
+
 	public void setJsonData(JSONObject jsonData) {
 		this.jsonData = jsonData;
+	}
+
+
+
+	public JSONObject getJsonData() {
+		return jsonData;
 	}
 
 
@@ -61,6 +77,8 @@ public class SalesAction extends ActionSupport{
 			String buyerName = request.getParameter("buyerName");
 			String buyTel = request.getParameter("buyerTel");
 			String productName = request.getParameter("productName");
+			//------------------------分割线
+			Integer amount = Integer.parseInt(request.getParameter("amount"));
 			Sales sales = new Sales();
 			sales.setSalesManId(saleManId);
 			sales.setProductId(productId);
@@ -69,16 +87,19 @@ public class SalesAction extends ActionSupport{
 			sales.setBuyerName(buyerName);
 			sales.setBuyTel(buyTel);
 			sales.setProductName(productName);
+			//修改数量
+			productService.updateAmount(productId, amount - 1);
+			
 			jsonResult.put("result", salesService.addSaveSales(sales) == 0?false:true);
 			
 			
 		} catch (ParseException e) {
-			jsonResult.put("result", 0);
+			jsonResult.put("result", false);
 			e.printStackTrace();
 			
 		}
 		this.setJsonData(jsonResult);
-		
+		System.out.println(jsonData.toString());
 		return SUCCESS;
 	}
 }

@@ -146,16 +146,23 @@ public class ProductDaoImpl extends HibernateDaoSupport implements ProductDao{
 	 */
 	@Override
 	public int modifyAmount(final Integer id,final Integer amount) {
-		getHibernateTemplate().execute(new HibernateCallback<Integer>() {
+		return getHibernateTemplate().execute(new HibernateCallback<Integer>() {
 
 			@Override
 			public Integer doInHibernate(Session session) throws HibernateException {
-				String hqlStr = "";
-				
-				return null;
+				try {
+					String hqlStr = "update set amount=? where productId=?";
+					Query query = session.createQuery(hqlStr);
+					query.setInteger(0, amount);
+					query.setInteger(1, id);
+					return query.executeUpdate();
+				} catch (Exception e) {
+					e.printStackTrace();
+					return 0;
+				}
 			}
 		});
-		return 0;
+		
 	}
 
 }

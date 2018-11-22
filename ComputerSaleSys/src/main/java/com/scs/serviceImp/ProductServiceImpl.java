@@ -87,4 +87,13 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 
+	/**
+	 * 	修改数量
+	 */
+	@Override
+	public int updateAmount(Integer id, Integer amount) {
+		return productDao.modifyAmount(id, amount);
+	}
+
+
 }

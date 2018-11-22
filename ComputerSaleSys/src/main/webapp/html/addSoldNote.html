@@ -42,8 +42,8 @@
             <div class="modal-body">
                  
                  <input type="hidden" placeholder="productId" class="form-control" name="productId" id='productId'>
-                 <input type="hidden" placeholder="'productName'" class="form-control" name="productName" id='productName'>
-                 
+                 <input type="hidden" placeholder="productName" class="form-control" name="productName" id='productName'>
+                 <input type="hidden" placeholder="" class="form-control" name="_amount" id='_amount'>
                                    <div class="form-group">
                                         <input type="text" placeholder="请输入买家姓名" class="form-control" name="buyerName" id="buyerName">
                                     </div>
@@ -162,7 +162,7 @@
     <!-- Page-Level Scripts -->
     <script>
     var oldId,oldName,oldSex,oldTel,oldBirth,oldInTime,oldAddr,oldBasicSalary
-    
+    var index = -1
     //保存
     $("#submitBtn").click(function(){
 	    var buyerName = $("#buyerName").val()
@@ -186,6 +186,7 @@
     		    	"outPrice":outPrice,
     		    	"salesTime":salesTime,
     		    	"salesManId":salesManId,
+    		    	"amount":$('#_amount').val()
     		    }
     		    console.log(Data)
     		    $.ajax({
@@ -195,6 +196,7 @@
     		    	success:function(msg){
     		    		if(msg['result'] == true){
     		    			//修改成功
+    		    			$("table#editable").find("tr").eq(index).find("td").eq(3).text(parseInt($('#_amount').val()) - 1);
     		    			swal("", "添加成功", "success")
     		    		}else{
     		    			swal("添加失败……", "出错了！","error");
@@ -274,7 +276,6 @@
     		    oldInPrice = $("table#editable").find("tr").eq(row).find("td").eq(4).text();
     		    oldInTime = $("table#editable").find("tr").eq(row).find("td").eq(5).text();
     		    oldSupplier = $("table#editable").find("tr").eq(row).find("td").eq(6).text();
-    		    console.log(oldId)
                 $.ajax({
                     url:"../listUser",
                     success:function(msg){
@@ -291,6 +292,7 @@
 						
                     }
                 });
+    		    $('#_amount').val(oldAmount)
     		    $('#productId').val(oldId)
 				$('#productName').val(oldName)
     		    $("#modify-modal").modal("show")

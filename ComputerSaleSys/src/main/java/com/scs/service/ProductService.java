@@ -11,4 +11,6 @@ public interface ProductService {
 	int modifyProductInfo(Product product);
 	//删除电脑
 	int deleteProductById(Integer id);
+	//修改数量
+	int updateAmount(Integer id, Integer amount);
 }
