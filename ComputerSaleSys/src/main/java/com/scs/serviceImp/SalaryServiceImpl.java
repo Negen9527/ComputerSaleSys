@@ -1,8 +1,9 @@
 package com.scs.serviceImp;
 
 import java.math.BigInteger;
+import java.text.DecimalFormat;
+import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -16,6 +17,7 @@ import com.scs.dao.SalaryDao;
 import com.scs.dao.UserDao;
 import com.scs.entity.User;
 import com.scs.service.SalaryService;
+import com.scs.utils.DateUtil;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -51,7 +53,7 @@ public class SalaryServiceImpl implements SalaryService{
 		JSONArray resltArr = new JSONArray();
 		List<User> users = userDao.selectAllUsers();
 		Map<Integer, User> basicSalaryMap = new HashMap<Integer, User>();
-		Map<Integer, Double> salaryMap = new HashMap<Integer, Double>();
+		Map<Integer, Object[]> salaryMap = new HashMap<Integer, Object[]>();
 		if(null != users) {
 			for (User user : users) {
 				basicSalaryMap.put(user.getId(), user);
@@ -68,7 +70,8 @@ public class SalaryServiceImpl implements SalaryService{
 				BigInteger count = (BigInteger)row[3];
 				User tUser = basicSalaryMap.get(userId);
 				Double reward = tUser.getBasicSalary() + 0.3*total;
-				salaryMap.put(userId, reward);
+				Object[] item = {reward,count};
+				salaryMap.put(userId, item);
 			}
 		}
 		
@@ -80,13 +83,44 @@ public class SalaryServiceImpl implements SalaryService{
 			temp.put("name", name);
 			temp.put("basicSalary", basicSalary);
 			temp.put("salary", basicSalary);
-			Double t = salaryMap.get(basicKey);
-			if(null != t) {
-				temp.put("salary", t);
+			temp.put("soldCount","0");
+			Object[] objects = salaryMap.get(basicKey);
+			DecimalFormat dFormat = new DecimalFormat(".00");
+			if(null != objects) {
+				temp.put("salary",dFormat.format(objects[0]));
+				temp.put("soldCount", objects[1]);
 			}
 			resltArr.add(temp);
 		}
 		return resltArr;
+	}
+
+
+
+	/**
+	 * 	查询个人薪资单
+	 */
+	@Override
+	public JSONObject selectOneByMonth(Integer userId, String month) {
+		List<Object[]> rList = (List<Object[]>)salaryDao.selectOneByMonth(userId, month);
+		if(null != rList) {
+			Object[] object = rList.get(0);
+			BigInteger userID = (BigInteger)object[0];
+			String userName = (String)object[1];
+			Double basicSalary = (Double)object[2];
+			Date inTime = (Date)object[3];
+			Double total = (Double)object[4];
+			BigInteger count = (BigInteger)object[5];
+			
+			String inTimeStr = DateUtil.date2str(inTime).replaceAll("-", "");
+			if(Integer.parseInt(inTimeStr) > Integer.parseInt(month)) {
+				//未入职
+			}else {
+				//入职后
+			}
+			
+		}
+		return null;
 	}
 
 }
