@@ -60,10 +60,10 @@ public class SalaryDaoImpl extends HibernateDaoSupport implements SalaryDao{
 							"    db_computer_sale.sales\r\n" + 
 							"    INNER JOIN db_computer_sale.user \r\n" + 
 							"        ON (sales.salesManId = user.id)\r\n" + 
-							"        WHERE user.id=? AND DATE_FORMAT(sales.salesTime,'%Y%m')=?;";
+							"        WHERE user.id="+userId+" AND DATE_FORMAT(sales.salesTime,'%Y%m')='"+yearAndMonth+"'";
 					Query query = session.createSQLQuery(sqlStr);
-					query.setInteger(0, userId);
-					query.setString(1, yearAndMonth);
+//					query.setInteger(0, userId);
+//					query.setString(1, yearAndMonth);
 					return query.list();
 				}
 			});

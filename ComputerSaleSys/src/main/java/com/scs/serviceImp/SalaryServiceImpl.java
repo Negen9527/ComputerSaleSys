@@ -102,7 +102,9 @@ public class SalaryServiceImpl implements SalaryService{
 	 */
 	@Override
 	public JSONObject selectOneByMonth(Integer userId, String month) {
+		JSONObject resultJSON = null;
 		List<Object[]> rList = (List<Object[]>)salaryDao.selectOneByMonth(userId, month);
+		System.out.println(rList);
 		if(null != rList) {
 			Object[] object = rList.get(0);
 			BigInteger userID = (BigInteger)object[0];
@@ -112,15 +114,21 @@ public class SalaryServiceImpl implements SalaryService{
 			Double total = (Double)object[4];
 			BigInteger count = (BigInteger)object[5];
 			
+			resultJSON = new JSONObject();
 			String inTimeStr = DateUtil.date2str(inTime).replaceAll("-", "");
 			if(Integer.parseInt(inTimeStr) > Integer.parseInt(month)) {
 				//未入职
 			}else {
 				//入职后
+				resultJSON.put("userName", userName);
+				resultJSON.put("basicSalary", basicSalary);
+				resultJSON.put("count", count);
+				resultJSON.put("total", total);
+				
 			}
 			
 		}
-		return null;
+		return resultJSON;
 	}
 
 }
