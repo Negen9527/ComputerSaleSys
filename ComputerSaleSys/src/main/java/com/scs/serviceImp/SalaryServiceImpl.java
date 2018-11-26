@@ -77,9 +77,11 @@ public class SalaryServiceImpl implements SalaryService{
 		
 		Set<Integer> basicKeys = basicSalaryMap.keySet();
 		for (Integer basicKey : basicKeys) {
+			Integer userId = basicSalaryMap.get(basicKey).getId();
 			String name = basicSalaryMap.get(basicKey).getUsername();
 			Double basicSalary = basicSalaryMap.get(basicKey).getBasicSalary();
 			JSONObject temp = new JSONObject();
+			temp.put("userId", userId);
 			temp.put("name", name);
 			temp.put("basicSalary", basicSalary);
 			temp.put("salary", basicSalary);
@@ -104,10 +106,9 @@ public class SalaryServiceImpl implements SalaryService{
 	public JSONObject selectOneByMonth(Integer userId, String month) {
 		JSONObject resultJSON = null;
 		List<Object[]> rList = (List<Object[]>)salaryDao.selectOneByMonth(userId, month);
-		System.out.println(rList);
-		if(null != rList) {
+		if(null != rList.get(0)[0]) {
 			Object[] object = rList.get(0);
-			BigInteger userID = (BigInteger)object[0];
+			Integer userID = (Integer)object[0];
 			String userName = (String)object[1];
 			Double basicSalary = (Double)object[2];
 			Date inTime = (Date)object[3];
@@ -115,7 +116,9 @@ public class SalaryServiceImpl implements SalaryService{
 			BigInteger count = (BigInteger)object[5];
 			
 			resultJSON = new JSONObject();
-			String inTimeStr = DateUtil.date2str(inTime).replaceAll("-", "");
+			String inTimeStr = DateUtil.date2str(inTime).replaceAll("-", "").substring(0, 6);
+			System.out.println(Integer.parseInt(inTimeStr));
+			System.out.println(Integer.parseInt(month));
 			if(Integer.parseInt(inTimeStr) > Integer.parseInt(month)) {
 				//未入职
 			}else {

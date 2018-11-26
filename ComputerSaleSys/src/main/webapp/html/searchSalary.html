@@ -32,29 +32,29 @@
     <div class="form-group">
         <!-- <label class="col-sm-3 control-label">文本框：</label> -->
         <div class="col-sm-9">
-            <input type="text" name="" class="form-control" placeholder="请输入员工号"> <span class="help-block m-b-none"></span>
+            <input type="text" name="" class="form-control" placeholder="请输入员工号" id="userId"> <span class="help-block m-b-none"></span>
 			<br>
         </div>
     </div>
     <div class="form-group">
         <!-- <label class="col-sm-3 control-label">文本框：</label> -->
         <div class="col-sm-9">
-            <input type="text" name="" class="form-control" placeholder="请输入员工姓名"> <span class="help-block m-b-none"></span>
+            <input type="text" name="" class="form-control" placeholder="请输入员工姓名" id="name"> <span class="help-block m-b-none"></span>
 			<br>
         </div>
     </div>
     <div class="form-group">
         <!-- <label class="col-sm-3 control-label">文本框：</label> -->
         <div class="col-sm-9">
-            <input type="text" name="" class="form-control" placeholder="请输入查询月份（如：201810）"> <span class="help-block m-b-none"></span>
+            <input type="text" name="" class="form-control" placeholder="请输入查询月份（如：201810）" id="month"> <span class="help-block m-b-none"></span>
 			<br>
         </div>
     </div>
     <div class="form-group">
         <div class="col-sm-12 col-sm-offset-3">
-            <button class="btn btn-primary" type="search">查询</button>
+            <button class="btn btn-primary" id="search">查询</button>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <button class="btn btn-white" type="reset">重置</button>
+            <button class="btn btn-white" id="reset">重置</button>
         </div>
     </div>
 </div>
@@ -93,7 +93,79 @@
     <script src="js/content.js"></script>
     <!--flotdemo-->
     <script type="text/javascript">
- 
+    $(document).ready(function(){
+    	$('#search').click(function(){
+    		userId = $("#userId").val();
+    		name = $("#name").val();
+    		month = $("#month").val();
+    		postData = {
+    				"userId":userId,
+    				"name":name,
+    				"month":month
+    		}
+    		console.log(postData)
+     		$.ajax({
+     			url:"../searchSalary",
+     			type:"get",
+     			data:postData,
+     			success:function(msg){
+					if(msg != null){
+	     				$("#tbody").empty()	 	
+	     				trid = "<tr>" 
+	     					 + "<td>工号</td>" 
+	     					 + "<td>" + userId + "</td>" 
+	     					 + "</tr>"
+	     				$("#tbody").append(trid)	 
+	          			trname = "<tr>" 
+	        				 + "<td>姓名</td>" 
+	        				 + "<td>" + name + "</td>" 
+	        				 + "</tr>"	
+	        			$("#tbody").append(trname)	 	 
+	          			trbasic = "<tr>" 
+	        				 + "<td>底薪</td>" 
+	        				 + "<td>" + msg["basicSalary"] + "</td>" 
+	        				 + "</tr>" 
+	        			$("#tbody").append(trbasic)	
+	        				 
+	               		trsalary = "<tr>" 
+	           				 + "<td>当月薪资</td>" 
+	           				 + "<td>" + msg["total"] + "</td>" 
+	           				 + "</tr>" 
+
+	           			$("#tbody").append(trsalary)	
+	                    trcount = "<tr>" 
+	                  		 + "<td>当月销量</td>" 
+	                  		 + "<td>" + msg["count"] + "</td>" 
+	                  		 + "</tr>" 
+	                  	$("#tbody").append(trcount)
+					}else{
+	                    trno = "<tr>" 
+	                  		 + "<td>未查询到相关结果</td>" 
+	                  		 + "</tr>" 
+	                  	$("#tbody").append(trno)		 
+					}
+     			}
+     			
+     			
+     		});
+    		
+    	
+    	});
+    	
+   $("#reset").click(function(){
+	   $("#userId").val("")
+	   $("#name").val("")
+	   $("#month").val("")
+	   
+	   
+   }); 	
+    	
+});
+
+    	
+    
+    
+    
     </script>
 </body>
 

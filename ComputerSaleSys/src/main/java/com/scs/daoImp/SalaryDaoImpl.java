@@ -65,6 +65,7 @@ public class SalaryDaoImpl extends HibernateDaoSupport implements SalaryDao{
 //					query.setInteger(0, userId);
 //					query.setString(1, yearAndMonth);
 					return query.list();
+					
 				}
 			});
 		} catch (Exception e) {
