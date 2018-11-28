@@ -80,19 +80,24 @@ public class SalaryServiceImpl implements SalaryService{
 			Integer userId = basicSalaryMap.get(basicKey).getId();
 			String name = basicSalaryMap.get(basicKey).getUsername();
 			Double basicSalary = basicSalaryMap.get(basicKey).getBasicSalary();
-			JSONObject temp = new JSONObject();
-			temp.put("userId", userId);
-			temp.put("name", name);
-			temp.put("basicSalary", basicSalary);
-			temp.put("salary", basicSalary);
-			temp.put("soldCount","0");
-			Object[] objects = salaryMap.get(basicKey);
-			DecimalFormat dFormat = new DecimalFormat(".00");
-			if(null != objects) {
-				temp.put("salary",dFormat.format(objects[0]));
-				temp.put("soldCount", objects[1]);
+			Date inTime = basicSalaryMap.get(basicKey).getInTime();
+			String inTimeStr = DateUtil.date2str(inTime).replaceAll("-", "").substring(0, 6);
+			if(Integer.parseInt(inTimeStr) < Integer.parseInt(month)) {
+				JSONObject temp = new JSONObject();
+				temp.put("userId", userId);
+				temp.put("name", name);
+				temp.put("basicSalary", basicSalary);
+				temp.put("salary", basicSalary);
+				temp.put("soldCount","0");
+				Object[] objects = salaryMap.get(basicKey);
+				DecimalFormat dFormat = new DecimalFormat(".00");
+				if(null != objects) {
+					temp.put("salary",dFormat.format(objects[0]));
+					temp.put("soldCount", objects[1]);
+				}
+				resltArr.add(temp);
 			}
-			resltArr.add(temp);
+
 		}
 		return resltArr;
 	}
