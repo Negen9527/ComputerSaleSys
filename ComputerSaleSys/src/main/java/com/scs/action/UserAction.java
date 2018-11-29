@@ -3,10 +3,13 @@ package com.scs.action;
 import java.util.Date;
 
 import javax.annotation.Resource;
+import javax.interceptor.Interceptors;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.InterceptorRef;
+import org.apache.struts2.convention.annotation.InterceptorRefs;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
@@ -18,7 +21,7 @@ import com.scs.utils.DateUtil;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-@ParentPackage("json-default")
+@ParentPackage("jsondefault")
 @Namespace(value = "/")
 public class UserAction extends ActionSupport{
 	private String username;                //用户名
@@ -72,7 +75,12 @@ public class UserAction extends ActionSupport{
 	@Action(value="/addUser",
 			results= {
 					@Result(type="json",params= {"root","jsonData"})
-			})
+			}
+			,
+			interceptorRefs = {
+					@InterceptorRef("mystack")
+			}
+			)
 	public String saveUser() {
 		
 		User user = getUserData(request);
@@ -106,9 +114,13 @@ public class UserAction extends ActionSupport{
 	 * 	获取所有员工
 	 * @return
 	 */
+
 	@Action(value="/listUser",
 			results= {
 					@Result(type="json",params= {"root","jsonArrayData"})
+			},
+			interceptorRefs = {
+					@InterceptorRef("mystack")
 			})
 	public String listUser() {
 		this.setJsonArrayData(userService.listAllUser());	

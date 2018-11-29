@@ -3,6 +3,31 @@
     "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
     "http://struts.apache.org/dtds/struts-2.5.dtd">
 <struts>
+<package name="jsondefault" extends="json-default">
+ 	<interceptors>
+		<interceptor name="loginInterceptor" class="com.scs.interceptor.LoginInterceptor"/>
+		<interceptor-stack name="mystack">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="loginInterceptor"></interceptor-ref>
+		</interceptor-stack>
+	</interceptors>
+</package>
+
+
+<!--  <package name="json-default" extends="json-default" namespace="/">
+	<interceptors>
+		<interceptor name="loginInterceptor" class="com.scs.interceptor.LoginInterceptor"></interceptor>
+		<interceptor-stack name="mystack">
+			<interceptor-ref name="defaultStack"/>
+			<interceptor-ref name="loginInterceptor"/>
+			
+		</interceptor-stack>
+	</interceptors>
+	<default-interceptor-ref name="mystack"></default-interceptor-ref>
+</package>  -->
+
+
+
 
     <!-- 默认访问页面 -->
 <!--     <package name="default" extends="struts-default" namespace="/">
