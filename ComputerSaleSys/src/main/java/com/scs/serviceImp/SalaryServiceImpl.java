@@ -131,7 +131,7 @@ public class SalaryServiceImpl implements SalaryService{
 				resultJSON.put("userName", userName);
 				resultJSON.put("basicSalary", basicSalary);
 				resultJSON.put("count", count);
-				resultJSON.put("total", total);
+				resultJSON.put("total", total*0.3 + basicSalary);
 			}
 			
 		}

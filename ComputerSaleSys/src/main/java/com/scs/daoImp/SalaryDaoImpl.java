@@ -23,7 +23,7 @@ public class SalaryDaoImpl extends HibernateDaoSupport implements SalaryDao{
 			public Object doInHibernate(Session session) throws HibernateException {
 				try {
 					String sqlStr = "SELECT\r\n" + 
-							"user.id AS userId,user.username AS username,SUM(sales.outPrice) AS total,COUNT(sales.outPrice) AS COUNT\r\n" + 
+							"user.id AS userId,user.username AS username,SUM(sales.outPrice - product.inPrice) AS total,COUNT(sales.outPrice) AS COUNT\r\n" + 
 							"FROM\r\n" + 
 							"    db_computer_sale.product\r\n" + 
 							"    INNER JOIN db_computer_sale.sales\r\n" + 
@@ -55,11 +55,13 @@ public class SalaryDaoImpl extends HibernateDaoSupport implements SalaryDao{
 				@Override
 				public Object doInHibernate(Session session) throws HibernateException {
 					String sqlStr = "SELECT\r\n" + 
-							"user.id,user.username,user.basicSalary,user.inTime,SUM(sales.outPrice) AS total,COUNT(*) AS _count\r\n" + 
+							"user.id,user.username,user.basicSalary,user.inTime,SUM(sales.outPrice - product.inPrice) AS total,COUNT(*) AS _count\r\n" + 
 							"FROM\r\n" + 
 							"    db_computer_sale.sales\r\n" + 
 							"    INNER JOIN db_computer_sale.user \r\n" + 
-							"        ON (sales.salesManId = user.id)\r\n" + 
+							"        ON (sales.salesManId = user.id)\r\n" +
+							"    INNER JOIN db_computer_sale.product\r\n" + 
+							"	ON (product.id = sales.productId)"+
 							"        WHERE user.id="+userId+" AND DATE_FORMAT(sales.salesTime,'%Y%m')='"+yearAndMonth+"'";
 					Query query = session.createSQLQuery(sqlStr);
 //					query.setInteger(0, userId);

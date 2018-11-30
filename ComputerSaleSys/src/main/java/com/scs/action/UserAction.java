@@ -76,10 +76,10 @@ public class UserAction extends ActionSupport{
 			results= {
 					@Result(type="json",params= {"root","jsonData"})
 			}
-			,
-			interceptorRefs = {
-					@InterceptorRef("mystack")
-			}
+//			,
+//			interceptorRefs = {
+//					@InterceptorRef("mystack")
+//			}
 			)
 	public String saveUser() {
 		
@@ -118,10 +118,12 @@ public class UserAction extends ActionSupport{
 	@Action(value="/listUser",
 			results= {
 					@Result(type="json",params= {"root","jsonArrayData"})
-			},
-			interceptorRefs = {
-					@InterceptorRef("mystack")
-			})
+			}
+//	,
+//			interceptorRefs = {
+//					@InterceptorRef("mystack")
+//			}
+	)
 	public String listUser() {
 		this.setJsonArrayData(userService.listAllUser());	
 		return SUCCESS;
