@@ -4,6 +4,7 @@
     "http://struts.apache.org/dtds/struts-2.5.dtd">
 <struts>
 <package name="jsondefault" extends="json-default">
+
  	<interceptors>
 		<interceptor name="loginInterceptor" class="com.scs.interceptor.LoginInterceptor"/>
 		<interceptor-stack name="mystack">
@@ -11,12 +12,16 @@
 			<interceptor-ref name="loginInterceptor"></interceptor-ref>
 		</interceptor-stack>
 	</interceptors>
-	
+	<default-interceptor-ref name="loginInterceptor"></default-interceptor-ref>
+	<global-results>
+		<result name="login">index.jsp</result>
+	</global-results>	
 	
 
 	
 	
 </package>
+
 <package name="default" extends="struts-default">
 	<action name="productDetail" class="com.scs.action.ProductAction" method="productDetail">
 		<result name="success">html/detail.jsp</result>

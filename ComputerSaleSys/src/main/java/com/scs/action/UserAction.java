@@ -119,10 +119,10 @@ public class UserAction extends ActionSupport{
 			results= {
 					@Result(type="json",params= {"root","jsonArrayData"})
 			}
-//	,
-//			interceptorRefs = {
-//					@InterceptorRef("mystack")
-//			}
+			,
+			interceptorRefs = {
+					@InterceptorRef("mystack")
+			}
 	)
 	public String listUser() {
 		this.setJsonArrayData(userService.listAllUser());	
