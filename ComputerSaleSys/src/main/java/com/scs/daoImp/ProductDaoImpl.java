@@ -190,4 +190,38 @@ public class ProductDaoImpl extends HibernateDaoSupport implements ProductDao{
 		
 	}
 
+
+	
+	/**
+	 *	电脑详情
+	 */
+	@Override
+	public Object selectOneByProductId(final Integer productId) {
+		return getHibernateTemplate().execute(new HibernateCallback<List>() {
+
+			@Override
+			public List doInHibernate(Session session) throws HibernateException {
+				try {
+					String sqlStr = "SELECT\r\n" + 
+							"NAME,typeId,inPrice,amount,inTime,supplier,screenSize,weight,cpu,videoCard,ram,hardPan\r\n" + 
+							"FROM\r\n" + 
+							"    db_computer_sale.deploy\r\n" + 
+							"    INNER JOIN db_computer_sale.product \r\n" + 
+							"        ON (deploy.productId = product.id)\r\n" + 
+							"    WHERE productId = ?;";
+					Query query = session.createSQLQuery(sqlStr);
+					query.setInteger(0, productId);
+					List list = query.list();
+					return list.size()==0?null:list;
+				} catch (Exception e) {
+					return null;
+				}
+			}
+		});
+	}
+
+	
+	
+	
+	
 }

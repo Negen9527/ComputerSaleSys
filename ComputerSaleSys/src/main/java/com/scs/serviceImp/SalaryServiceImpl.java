@@ -122,8 +122,6 @@ public class SalaryServiceImpl implements SalaryService{
 			
 			resultJSON = new JSONObject();
 			String inTimeStr = DateUtil.date2str(inTime).replaceAll("-", "").substring(0, 6);
-			System.out.println(Integer.parseInt(inTimeStr));
-			System.out.println(Integer.parseInt(month));
 			if(Integer.parseInt(inTimeStr) > Integer.parseInt(month)) {
 				//未入职
 			}else {

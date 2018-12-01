@@ -280,6 +280,16 @@
                     {
                         // targets用于指定操作的列，从第0列开始，-1为最后一列，这里第六列
                         // return后边是我们希望在指定列填入的按钮代码
+                        "targets": 1,
+                        "render": function ( data, type, full, meta ) {
+                        	retStr = "<a href='../productDetail?productId="+ data.id +"'>"+data.name+"</a>"
+                        	
+                            return retStr
+                        }
+                    },
+                    {
+                        // targets用于指定操作的列，从第0列开始，-1为最后一列，这里第六列
+                        // return后边是我们希望在指定列填入的按钮代码
                         "targets": -1,
                         "render": function ( data, type, full, meta ) {
                         	retStr = "<button id = 'deleteBtn' value = '删除' style='margin-bottom: 0px;' class='btn btn-w-s btn-danger'><i class='fa fa-remove'></i>&nbsp;&nbsp;<span class='bold'>删除</span></button>&nbsp;&nbsp;" + 
@@ -290,7 +300,8 @@
                 ],
                 "columns": [
                 	{ "data":"id","visible":true},
-                    { "data": "name"},
+                    //{ "data": "name"},
+                    { "data": null},
                     { "data": "typeId"},
                     { "data": "amount"},
                     { "data": "inPrice"},

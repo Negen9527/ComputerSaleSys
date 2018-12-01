@@ -197,6 +197,19 @@ public class ProductAction extends ActionSupport{
 		return SUCCESS;
 	}
 	
+//	@Action(value = "productDetail",
+//			results = {
+//					@Result(name="success", location="detail.jsp")
+//			})
+	public String productDetail() {
+		Integer productId = Integer.parseInt(request.getParameter("productId"));
+		JSONObject productJSON = productService.selectOneByProductId(productId);
+		for (Object key : productJSON.keySet()) {
+			request.setAttribute((String)key, productJSON.get(key));
+		}
+		return SUCCESS;
+	}
+	
 	
 	
 	

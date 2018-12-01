@@ -1,6 +1,7 @@
 package com.scs.serviceImp;
 
 
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -102,6 +103,46 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public void addAmount(Integer productId) {
 		productDao.addAmount(productId);
+	}
+
+
+	/**
+	 * 	查看电脑详情
+	 */
+	@Override
+	public JSONObject selectOneByProductId(Integer productId) {
+		JSONObject productJSON = null;
+		List<Object[]> products = (List<Object[]>) productDao.selectOneByProductId(productId);
+		if(null != products) {
+			productJSON = new JSONObject();
+			Object[] product = products.get(0);
+			String name = (String)product[0];
+			String typeId = (String)product[1];
+			Double inPrice = (Double)product[2];
+			Integer amount = (Integer)product[3];
+			String inTime = DateUtil.date2str((Date)product[4]);
+			String supplier = (String)product[5];
+			String screenSize = (String)product[6];
+			Double weight = (Double)product[7];
+			String cpu = (String)product[8];
+			String videCard = (String)product[9];
+			String ram = (String)product[10];
+			String hardPan = (String)product[11];
+			
+			productJSON.put("name", name);
+			productJSON.put("typeId", typeId);
+			productJSON.put("inPrice", inPrice);
+			productJSON.put("amount", amount);
+			productJSON.put("inTime", inTime);
+			productJSON.put("supplier", supplier);
+			productJSON.put("screenSize", screenSize);
+			productJSON.put("weight", weight);
+			productJSON.put("cpu", cpu);
+			productJSON.put("videCard", videCard);
+			productJSON.put("ram", ram);
+			productJSON.put("hardPan", hardPan);
+		}
+		return productJSON;
 	}
 
 

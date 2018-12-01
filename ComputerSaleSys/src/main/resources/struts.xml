@@ -11,8 +11,17 @@
 			<interceptor-ref name="loginInterceptor"></interceptor-ref>
 		</interceptor-stack>
 	</interceptors>
-</package>
+	
+	
 
+	
+	
+</package>
+<package name="default" extends="struts-default">
+	<action name="productDetail" class="com.scs.action.ProductAction" method="productDetail">
+		<result name="success">html/detail.jsp</result>
+	</action>
+</package>
 
 <!--  <package name="json-default" extends="json-default" namespace="/">
 	<interceptors>

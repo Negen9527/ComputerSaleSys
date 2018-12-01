@@ -21,4 +21,6 @@ public interface ProductDao {
 	int totalPages();
 	//分页查询
 	List<Product> selectProductByPageNum(Integer pageNum, Integer pageSize);
+	//查询电脑信息
+	Object selectOneByProductId(Integer productId);
 }
