@@ -3,6 +3,7 @@ package com.scs.action;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -13,10 +14,24 @@ import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.scs.dao.LoginDao;
+import com.scs.entity.Admin;
 @ParentPackage("struts-default")
 @Namespace(value = "/")
 public class LoginAction extends ActionSupport{
+	@Resource(name = "loginDao")
+	private LoginDao loginDao;
 	
+	
+	public LoginDao getLoginDao() {
+		return loginDao;
+	}
+	public void setLoginDao(LoginDao loginDao) {
+		this.loginDao = loginDao;
+	}
+
+
+
 	@Action(value = "login",
 			results = {
 					@Result(name="success", type="redirect", location="/html/index.html"),
@@ -29,7 +44,12 @@ public class LoginAction extends ActionSupport{
 		
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
-		System.out.println(username);
+		Admin admin = new Admin();
+		admin.setUsername(username);
+		admin.setPassword(password);
+		
+		Integer intResult = loginDao.logon(admin);
+		System.out.println("=========>" + intResult);
 		if(username.equals("123") && password.equals("123")) {
 			if(null == sessionIds) {
 				List<String> sessionIdList = new ArrayList<String>();
