@@ -1,6 +1,7 @@
 package com.scs.filter;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -41,10 +42,20 @@ public class HtmlFilter implements Filter {
 		HttpServletRequest req = (HttpServletRequest)request;
 		HttpServletResponse resp = (HttpServletResponse)response;
 		String reqUri = req.getRequestURL().toString();
-		if(reqUri.contains("html") && !reqUri.contains("login.html")) {
-			String cUser = (String)req.getSession().getAttribute("user");
-			if(null == cUser) {
+		if(reqUri.contains(".html") && !reqUri.contains("login.html")) {
+			List<String> sessionIds = (List<String>)req.getSession().getAttribute("sessionIds");
+//			for (String string : sessionIds) {
+//				System.out.println(string);
+//			}
+			if(null == sessionIds) {
+				
 				resp.sendRedirect("login.html");
+			}else {
+				//已登陆
+				String cSessionId = req.getSession().getId();
+				if(!sessionIds.contains(cSessionId)) {
+					resp.sendRedirect("login.html");
+				}
 			}
 		}
 		chain.doFilter(request, response);

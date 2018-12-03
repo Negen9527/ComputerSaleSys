@@ -1,5 +1,7 @@
 package com.scs.interceptor;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -18,13 +20,14 @@ public class LoginInterceptor extends AbstractInterceptor{
 
 	@Override
 	public String intercept(ActionInvocation invocation) throws Exception {
-		String user = (String)ActionContext.getContext().getSession().get("user");
-		System.out.println(user);
-		if(user == null) {
+		List<String> sessionIds = (List<String>)ActionContext.getContext().getSession().get("sessionIds");
+		System.out.println(sessionIds);
+		if(sessionIds == null) {
 			System.out.println("======>用户未登录");
 			HttpServletResponse response = ServletActionContext.getResponse();
 			response.sendRedirect("html/login.html");
 		}
+		invocation.invoke();
 		return null;
 	}
 

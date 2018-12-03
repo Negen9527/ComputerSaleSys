@@ -19,7 +19,8 @@ public class LoginAction extends ActionSupport{
 	
 	@Action(value = "login",
 			results = {
-					@Result(name="success")
+					@Result(name="success", type="redirect", location="/html/index.html"),
+					@Result(name="login", type="redirect", location="/html/login.html")
 			})
 	public String login() {
 		HttpServletRequest request = ServletActionContext.getRequest();
@@ -28,15 +29,15 @@ public class LoginAction extends ActionSupport{
 		
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
+		System.out.println(username);
 		if(username.equals("123") && password.equals("123")) {
-			System.out.println("==========>登陆成功");
 			if(null == sessionIds) {
 				List<String> sessionIdList = new ArrayList<String>();
 				sessionIdList.add(session.getId());
-				session.setAttribute("user", sessionIdList);
+				session.setAttribute("sessionIds", sessionIdList);
 			}else {
 				sessionIds.add(session.getId());
-				session.setAttribute("user", sessionIds);
+				session.setAttribute("sessionIds", sessionIds);
 			}
 			return SUCCESS;
 		}
