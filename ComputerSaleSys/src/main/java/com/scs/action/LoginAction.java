@@ -16,20 +16,17 @@ import org.apache.struts2.convention.annotation.Result;
 import com.opensymphony.xwork2.ActionSupport;
 import com.scs.dao.LoginDao;
 import com.scs.entity.Admin;
+import com.scs.service.LoginService;
 @ParentPackage("struts-default")
 @Namespace(value = "/")
 public class LoginAction extends ActionSupport{
-	@Resource(name = "loginDao")
-	private LoginDao loginDao;
+	@Resource(name = "loginService")
+	private LoginService loginService;
 	
-	
-	public LoginDao getLoginDao() {
-		return loginDao;
-	}
-	public void setLoginDao(LoginDao loginDao) {
-		this.loginDao = loginDao;
-	}
 
+	public void setLoginService(LoginService loginService) {
+		this.loginService = loginService;
+	}
 
 
 	@Action(value = "login",
@@ -48,9 +45,8 @@ public class LoginAction extends ActionSupport{
 		admin.setUsername(username);
 		admin.setPassword(password);
 		
-		Integer intResult = loginDao.logon(admin);
-		System.out.println("=========>" + intResult);
-		if(username.equals("123") && password.equals("123")) {
+		Integer intResult = loginService.logon(admin);
+		if(intResult != 0) {
 			if(null == sessionIds) {
 				List<String> sessionIdList = new ArrayList<String>();
 				sessionIdList.add(session.getId());

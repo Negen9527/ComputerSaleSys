@@ -20,7 +20,7 @@ public class LoginDaoImpl extends HibernateDaoSupport implements LoginDao{
 
 			@Override
 			public Integer doInHibernate(Session session) throws HibernateException {
-				String hqlStr = "from Admin where username:=? and password:=?";
+				String hqlStr = "from Admin a where a.username=? and a.password=?";
 				Query query = session.createQuery(hqlStr);
 				query.setString(0, admin.getUsername());
 				query.setString(1, admin.getPassword());		
