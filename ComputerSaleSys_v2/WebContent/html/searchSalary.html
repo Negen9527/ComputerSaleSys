@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--360浏览器优先以webkit内核解析-->
+
+
+    <title> - 主页示例</title>
+
+    <link rel="shortcut icon" href="favicon.ico"> <link href="css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="css/font-awesome.css?v=4.4.0" rel="stylesheet">
+
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css?v=4.1.0" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+     <div class="wrapper wrapper-content">
+        <div class="row">
+        
+<div class="col-md-4 col-md-offset-4">
+    <div class="form-group">
+    	<div class="col-sm-9">
+			<h2>薪资查询</h2>
+		</div>
+    </div>
+    <div class="form-group">
+        <!-- <label class="col-sm-3 control-label">文本框：</label> -->
+        <div class="col-sm-9">
+            <input type="text" name="" class="form-control" placeholder="请输入员工号" id="userId"> <span class="help-block m-b-none"></span>
+			<br>
+        </div>
+    </div>
+    <div class="form-group">
+        <!-- <label class="col-sm-3 control-label">文本框：</label> -->
+        <div class="col-sm-9">
+            <input type="text" name="" class="form-control" placeholder="请输入员工姓名" id="name"> <span class="help-block m-b-none"></span>
+			<br>
+        </div>
+    </div>
+    <div class="form-group">
+        <!-- <label class="col-sm-3 control-label">文本框：</label> -->
+        <div class="col-sm-9">
+            <input type="text" name="" class="form-control" placeholder="请输入查询月份（如：201810）" id="month"> <span class="help-block m-b-none"></span>
+			<br>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-12 col-sm-offset-3">
+            <button class="btn btn-primary" id="search">查询</button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="btn btn-white" id="reset">重置</button>
+        </div>
+    </div>
+</div>
+
+
+        </div>
+
+<hr>
+<div class="col-md-5 col-md-offset-3" style="border:1px solid;border-left:none;border-bottom:none;border-right:none;">
+	<h3>查询结果</h3>
+                    <div class="ibox-content">
+
+                        <table class="table table-striped" style="text-align: center;">
+                            <tbody id="tbody">
+
+<!-- 								<tr>
+									<td>员工工号</td>
+									<td>111</td>
+								</tr> -->
+								
+                            </tbody>
+                        </table>
+                    </div>
+</div>
+    </div> 
+    <!-- 全局js -->
+    <script src="js/jquery.min.js?v=2.1.4"></script>
+    <script src="js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="js/plugins/layer/layer.min.js"></script>
+    <!-- Flot -->
+    <script src="js/plugins/flot/jquery.flot.js"></script>
+    <script src="js/plugins/flot/jquery.flot.tooltip.min.js"></script>
+    <script src="js/plugins/flot/jquery.flot.resize.js"></script>
+    <script src="js/plugins/flot/jquery.flot.pie.js"></script>
+    <!-- 自定义js -->
+    <script src="js/content.js"></script>
+    <!--flotdemo-->
+    <script type="text/javascript">
+    $(document).ready(function(){
+    	$('#search').click(function(){
+    		userId = $("#userId").val();
+    		name = $("#name").val();
+    		month = $("#month").val();
+    		postData = {
+    				"userId":userId,
+    				"name":name,
+    				"month":month
+    		}
+    		console.log(postData)
+     		$.ajax({
+     			url:"../searchSalary",
+     			type:"get",
+     			data:postData,
+     			success:function(msg){
+					if(msg != null){
+	     				$("#tbody").empty()	 	
+	     				trid = "<tr>" 
+	     					 + "<td>工号</td>" 
+	     					 + "<td>" + userId + "</td>" 
+	     					 + "</tr>"
+	     				$("#tbody").append(trid)	 
+	          			trname = "<tr>" 
+	        				 + "<td>姓名</td>" 
+	        				 + "<td>" + name + "</td>" 
+	        				 + "</tr>"	
+	        			$("#tbody").append(trname)	 	 
+	          			trbasic = "<tr>" 
+	        				 + "<td>底薪</td>" 
+	        				 + "<td>" + msg["basicSalary"] + "</td>" 
+	        				 + "</tr>" 
+	        			$("#tbody").append(trbasic)	
+	        				 
+	               		trsalary = "<tr>" 
+	           				 + "<td>当月薪资</td>" 
+	           				 + "<td>" + msg["total"] + "</td>" 
+	           				 + "</tr>" 
+
+	           			$("#tbody").append(trsalary)	
+	                    trcount = "<tr>" 
+	                  		 + "<td>当月销量</td>" 
+	                  		 + "<td>" + msg["count"] + "</td>" 
+	                  		 + "</tr>" 
+	                  	$("#tbody").append(trcount)
+					}else{
+	                    trno = "<tr>" 
+	                  		 + "<td>未查询到相关结果</td>" 
+	                  		 + "</tr>" 
+	                  	$("#tbody").append(trno)		 
+					}
+     			}
+     			
+     			
+     		});
+    		
+    	
+    	});
+    	
+   $("#reset").click(function(){
+	   $("#userId").val("")
+	   $("#name").val("")
+	   $("#month").val("")
+	   
+	   
+   }); 	
+    	
+});
+
+    	
+    
+    
+    
+    </script>
+</body>
+
+</html>

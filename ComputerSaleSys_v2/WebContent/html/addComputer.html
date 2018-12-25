@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title> - 基本表单</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <link rel="shortcut icon" href="favicon.ico"> <link href="css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css?v=4.1.0" rel="stylesheet">
+	<style type="text/css">
+	
+	</style>
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>新增电脑</small></h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <form role="form" method="post" action="">
+                                    <div class="form-group">
+                                        <input type="text" placeholder="请输入品牌名" class="form-control" name="name" id="name">
+                                    </div>
+                                    <div class="form-group">
+                                            <input type="text" placeholder="请输入型号" class="form-control" name="typeId" id="typeId">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                            <input type="number" placeholder="请输入数量" class="form-control" name="amount" id="amount">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <input type="number" placeholder="请输入进货价格" class="form-control" name="inPrice" id="inPrice">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                            <input id="inTime" class="laydate-icon form-control layer-date" placeholder="请选择入进货日期"/>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <input type="text" placeholder="请输入供应商" class="form-control" name="basicSalary" id="supplier">
+                                    </div>
+                                    
+                                    
+                                    <div class="form-group">
+                                        <input type="text" placeholder="请输入屏幕大小" class="form-control" name="screenSize" id="screenSize">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <input type="number" placeholder="请输入重量" class="form-control" name="screenSize" id="weight">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <input type="text" placeholder="请输入cpu型号" class="form-control" name="screenSize" id="cpu">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <input type="text" placeholder="请输入显卡型号" class="form-control" name="screenSize" id="videoCard">
+                                    </div>  
+                                                                 
+                                     <div class="form-group">
+                                        <input type="text" placeholder="请输入RAM型号" class="form-control" name="screenSize" id="ram">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <input type="text" placeholder="请输入硬盘型号" class="form-control" name="screenSize" id="hardPan">
+                                    </div>  
+                                                                                                                  
+                                    <div style="text-align:center">
+                                        <button id="saveBtn" class="btn btn-sm btn-primary pull-right m-t-n-xs" type="button"
+                                                style="margin-right: 30%;"><strong>保&nbsp;&nbsp;&nbsp;&nbsp;
+                                        存</strong>
+                                        </button>
+
+                                        <button class="btn btn-sm btn-info pull-right m-t-n-xs" type="reset"
+                                                style="margin-right: 30%;" onclick="reset()"><strong>重&nbsp;&nbsp;&nbsp;&nbsp;
+                                        置</strong>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    <!-- 全局js -->
+    <script src="js/jquery.min.js?v=2.1.4"></script>
+    <script src="js/bootstrap.min.js?v=3.3.6"></script>
+
+    <!-- 自定义js -->
+    <script src="js/content.js?v=1.0.0"></script>
+
+    <!-- iCheck -->
+    <script src="js/plugins/iCheck/icheck.min.js"></script>
+    
+    <!-- layerDate plugin javascript -->
+    <script src="js/plugins/layer/laydate/laydate.js"></script>
+    
+    <script>
+        $(document).ready(function () {
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+        });
+        
+        
+        $("#saveBtn").click(function (){
+            name = $("#name").val();
+            typeId = $("#typeId").val();
+            amount = $("#amount").val();
+            inPrice = $("#inPrice").val();
+            inTime = $("#inTime").val();
+            supplier = $("#supplier").val();
+            screenSize = $("#screenSize").val();
+            weight = $("#weight").val();
+            cpu = $("#cpu").val();
+            videoCard = $("#videoCard").val();
+            ram = $("#ram").val();
+            hardPan = $("#hardPan").val();
+
+            if(name == ""){swal("", "请输入电脑名","warning")}
+            else if(typeId == ""){swal("", "请输入型号","warning")} 
+            else if(amount == ""){swal("", "请输入数量","warning")}    
+            else if(inPrice == ""){swal("", "请输入进货价格","warning")}    
+            else if(inTime == ""){swal("", "请输入进货时间","warning")}    
+            else if(supplier == ""){swal("", "请输入供应商","warning")}    
+            else if(screenSize == ""){swal("", "请输入屏幕大小","warning")}    
+            else if(weight == ""){swal("", "请输入重量","warning")}    
+            else if(cpu == ""){swal("", "请输入cpu型号","warning")}    
+            else if(videoCard == ""){swal("", "请输入显卡型号","warning")}    
+            else if(ram == ""){swal("", "请输入ram型号","warning")}    
+            else if(hardPan == ""){swal("", "请输入硬盘型号","warning")}
+            else{
+                Data = {
+                    "name":name,
+                    "typeId":typeId,
+                    "amount":amount,
+                    "inPrice":inPrice,
+                    "inTime":inTime,
+                    "supplier":supplier,
+                    "screenSize":screenSize,
+                    "weight":weight,
+                    "cpu":cpu,
+                    "videoCard":videoCard,
+                    "ram":ram,
+                    "hardPan":hardPan
+                }
+                console.log(Data)
+                $.ajax({
+                    type:"post",
+                    url:"../addProduct",
+                    data:Data,
+                    success:function(msg){
+                        if(msg["addResult"] == true){
+                        	swal("", "添加成功","success")
+                        	reset()
+                        }else{
+                        	swal("", "添加失败","error")
+                        }
+                    }
+                });
+            }       
+
+        });
+
+        
+   function reset(){
+       $("#name").val("");
+       $("#typeId").val("");
+       $("#amount").val("");
+       $("#inPrice").val("");
+       $("#inTime").val("");
+       $("#supplier").val("");
+       $("#screenSize").val("");
+       $("#weight").val("");
+       $("#cpu").val("");
+       $("#videoCard").val("");
+       $("#ram").val("");
+       $("#hardPan").val("");
+   }     
+     
+   
+   //外部js调用
+   laydate({
+       elem: '#inTime', //目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
+       event: 'focus' //响应事件。如果没有传入event，则按照默认的click
+   });  
+   </script>
+
+
+
+</body>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</html>
